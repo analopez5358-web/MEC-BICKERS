@@ -274,7 +274,7 @@
                                     <thead>
                                         <tr>
                                             <th>Cliente / Moto</th>
-                                            <th>Estado</th>
+                                            <th>Estado (Editable)</th>
                                             <th>Mano de Obra</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -650,6 +650,7 @@
             }
         }
 
+        // CARGAR MOTOS CON ESTADO EDITABLE (SELECT)
         function cargarMotos() {
             let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
             let html = '';
@@ -660,9 +661,17 @@
             } else {
                 motos.forEach((m, index) => {
                     if(m.estado !== 'Lista para Entrega') activas++;
+                    
                     html += `<tr>
                         <td><strong>${m.cliente}</strong><br><small class="text-muted">${m.modelo} (${m.placa || 'Sin placa'})</small></td>
-                        <td><span class="badge bg-secondary">${m.estado}</span></td>
+                        <td>
+                            <select class="form-select form-select-sm" onchange="cambiarEstadoMoto(${index}, this.value)">
+                                <option value="Pendiente de revisión" ${m.estado === 'Pendiente de revisión' ? 'selected' : ''}>Pendiente de revisión</option>
+                                <option value="En Diagnóstico" ${m.estado === 'En Diagnóstico' ? 'selected' : ''}>En Diagnóstico</option>
+                                <option value="En Reparación" ${m.estado === 'En Reparación' ? 'selected' : ''}>En Reparación</option>
+                                <option value="Lista para Entrega" ${m.estado === 'Lista para Entrega' ? 'selected' : ''}>Lista para Entrega</option>
+                            </select>
+                        </td>
                         <td>L ${m.manoObra}</td>
                         <td><button class="btn btn-danger btn-sm" onclick="eliminarMoto(${index})"><i class="fas fa-trash"></i></button></td>
                     </tr>`;
@@ -670,6 +679,16 @@
             }
             document.getElementById('tabla-motos-body').innerHTML = html;
             document.getElementById('lbl-motos-activas').innerText = activas;
+        }
+
+        // FUNCIÓN PARA ACTUALIZAR EL ESTADO DIRECTAMENTE DESDE LA TABLA
+        function cambiarEstadoMoto(index, nuevoEstado) {
+            let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
+            if(motos[index]) {
+                motos[index].estado = nuevoEstado;
+                localStorage.setItem('mec_motos', JSON.stringify(motos));
+                cargarMotos(); // Recarga para actualizar contadores y vista
+            }
         }
 
         function eliminarMoto(index) {
