@@ -227,7 +227,7 @@
                     <div class="col-md-4">
                         <div class="card bg-success text-white p-3 shadow-sm">
                             <h6>Estado del Sistema</h6>
-                            <h3 class="small mt-2">Sincronizado Local/Nube</h3>
+                            <h3 class="small mt-2">Sincronizado Sheets/Nube</h3>
                         </div>
                     </div>
                 </div>
@@ -252,7 +252,7 @@
                             <div class="mb-2">
                                 <label class="form-label small text-muted mb-1">Estado de la Revisión:</label>
                                 <select id="moto-estado" class="form-select form-select-sm">
-                                    <option value="Pendiente">Pendiente de revisión</option>
+                                    <option value="Pendiente de revisión">Pendiente de revisión</option>
                                     <option value="En Diagnóstico">En Diagnóstico</option>
                                     <option value="En Reparación">En Reparación</option>
                                     <option value="Lista para Entrega">Lista para Entrega</option>
@@ -275,7 +275,7 @@
                                         <tr>
                                             <th>Cliente / Moto</th>
                                             <th>Estado</th>
-                                            <th>Total Estimado</th>
+                                            <th>Mano de Obra</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -524,7 +524,7 @@
             }
         }
 
-        // Funciones bases de guardado local
+        // Funciones de guardado de inventario
         function guardarRepuesto() {
             let nombre = document.getElementById('inv-nombre').value;
             let stock = document.getElementById('inv-stock').value;
@@ -592,31 +592,62 @@
             document.getElementById('inv-precio').value = precio.toFixed(2);
         }
 
-        function guardarOrdenMoto() {
+        // CONEXIÓN DE ÓRDENES DE TRABAJO A GOOGLE SHEETS
+        async function guardarOrdenMoto() {
             let cliente = document.getElementById('moto-cliente').value;
             let telefono = document.getElementById('moto-telefono').value;
             let placa = document.getElementById('moto-placa').value;
             let modelo = document.getElementById('moto-modelo').value;
+            let kilometraje = document.getElementById('moto-km-actual').value;
             let estado = document.getElementById('moto-estado').value;
+            let falla = document.getElementById('moto-falla').value;
             let manoObra = parseFloat(document.getElementById('moto-mano-obra').value) || 0;
 
             if(!cliente || !modelo) {
-                alert("Ingrese el cliente y el modelo de la moto.");
+                alert("Ingrese al menos el nombre del cliente y el modelo de la moto.");
                 return;
             }
 
-            let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
-            motos.push({cliente, telefono, placa, modelo, estado, manoObra});
-            localStorage.setItem('mec_motos', JSON.stringify(motos));
+            const urlGoogleScript = "https://script.google.com/macros/s/AKfycbyHk8AGsmSkpRlCgFPPI9itHsdRfe0hK97iZLpPPv4ta5eUo4NxW5KLdWkCpTvcaZoi/exec";
+            let datosOrden = { cliente, telefono, placa, modelo, kilometraje, estado, falla, manoObra };
 
-            alert("Orden de trabajo registrada.");
-            document.getElementById('moto-cliente').value = '';
-            document.getElementById('moto-telefono').value = '';
-            document.getElementById('moto-placa').value = '';
-            document.getElementById('moto-modelo').value = '';
-            document.getElementById('moto-km-actual').value = '';
-            document.getElementById('moto-mano-obra').value = '0';
-            cargarMotos();
+            try {
+                let btnRegistrar = event.target;
+                btnRegistrar.innerText = "Guardando en Nube...";
+                btnRegistrar.disabled = true;
+
+                let response = await fetch(urlGoogleScript, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(datosOrden)
+                });
+
+                // Copia de respaldo local
+                let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
+                motos.push(datosOrden);
+                localStorage.setItem('mec_motos', JSON.stringify(motos));
+
+                alert("¡Orden de trabajo registrada y enviada a Google Sheets con éxito!");
+                
+                document.getElementById('moto-cliente').value = '';
+                document.getElementById('moto-telefono').value = '';
+                document.getElementById('moto-placa').value = '';
+                document.getElementById('moto-modelo').value = '';
+                document.getElementById('moto-km-actual').value = '';
+                document.getElementById('moto-falla').value = '';
+                document.getElementById('moto-mano-obra').value = '0';
+                
+                cargarMotos();
+                btnRegistrar.innerText = "Registrar Orden";
+                btnRegistrar.disabled = false;
+
+            } catch (error) {
+                console.error("Error al conectar con la hoja:", error);
+                alert("Hubo un error al enviar los datos a la hoja de cálculo.");
+                event.target.disabled = false;
+                event.target.innerText = "Registrar Orden";
+            }
         }
 
         function cargarMotos() {
