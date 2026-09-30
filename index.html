@@ -464,12 +464,73 @@
         </main>
     </div>
 
+    <!-- MODAL EDITAR ORDEN (CLIENTE Y VEHÍCULO) -->
+    <div class="modal fade" id="modalEditarOrden" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Orden de Trabajo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="edit-index">
+                    <div class="mb-2">
+                        <label class="form-label small">Nombre del Cliente</label>
+                        <input type="text" id="edit-cliente" class="form-control form-control-sm">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label class="form-label small">Teléfono</label>
+                            <input type="text" id="edit-telefono" class="form-control form-control-sm">
+                        </div>
+                        <div class="col">
+                            <label class="form-label small">Placa</label>
+                            <input type="text" id="edit-placa" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label class="form-label small">Modelo de Moto</label>
+                            <input type="text" id="edit-modelo" class="form-control form-control-sm">
+                        </div>
+                        <div class="col">
+                            <label class="form-label small">Kilometraje</label>
+                            <input type="text" id="edit-kilometraje" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Estado de la Revisión</label>
+                        <select id="edit-estado" class="form-select form-select-sm">
+                            <option value="Pendiente de revisión">Pendiente de revisión</option>
+                            <option value="En Diagnóstico">En Diagnóstico</option>
+                            <option value="En Reparación">En Reparación</option>
+                            <option value="Lista para Entrega">Lista para Entrega</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Falla / Trabajos</label>
+                        <textarea id="edit-falla" class="form-control form-control-sm" rows="2"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Costo de Mano de Obra (L)</label>
+                        <input type="number" id="edit-mano-obra" class="form-control form-control-sm">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="guardarEdicionOrden()">Guardar Cambios en Nube y Local</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- SCRIPT DE FUNCIONAMIENTO -->
     <script>
         let carrito = [];
+        const urlGoogleScript = "https://script.google.com/macros/s/AKfycbyHk8AGsmSkpRlCgFPPI9itHsdRfe0hK97iZLpPPv4ta5eUo4NxW5KLdWkCpTvcaZoi/exec";
 
         function ingresarSistema() {
             const pass = document.getElementById('input-pass').value;
@@ -524,7 +585,6 @@
             }
         }
 
-        // Funciones de guardado de inventario
         function guardarRepuesto() {
             let nombre = document.getElementById('inv-nombre').value;
             let stock = document.getElementById('inv-stock').value;
@@ -592,7 +652,7 @@
             document.getElementById('inv-precio').value = precio.toFixed(2);
         }
 
-        // CONEXIÓN DE ÓRDENES DE TRABAJO A GOOGLE SHEETS
+        // GUARDAR NUEVA ORDEN EN NUBE Y LOCAL
         async function guardarOrdenMoto() {
             let cliente = document.getElementById('moto-cliente').value;
             let telefono = document.getElementById('moto-telefono').value;
@@ -608,27 +668,25 @@
                 return;
             }
 
-            const urlGoogleScript = "https://script.google.com/macros/s/AKfycbyHk8AGsmSkpRlCgFPPI9itHsdRfe0hK97iZLpPPv4ta5eUo4NxW5KLdWkCpTvcaZoi/exec";
             let datosOrden = { cliente, telefono, placa, modelo, kilometraje, estado, falla, manoObra };
 
             try {
                 let btnRegistrar = event.target;
-                btnRegistrar.innerText = "Guardando en Nube...";
+                btnRegistrar.innerText = "Guardando...";
                 btnRegistrar.disabled = true;
 
-                let response = await fetch(urlGoogleScript, {
+                await fetch(urlGoogleScript, {
                     method: "POST",
                     mode: "no-cors",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(datosOrden)
                 });
 
-                // Copia de respaldo local
                 let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
                 motos.push(datosOrden);
                 localStorage.setItem('mec_motos', JSON.stringify(motos));
 
-                alert("¡Orden de trabajo registrada y enviada a Google Sheets con éxito!");
+                alert("¡Orden registrada y enviada a Google Sheets con éxito!");
                 
                 document.getElementById('moto-cliente').value = '';
                 document.getElementById('moto-telefono').value = '';
@@ -643,14 +701,14 @@
                 btnRegistrar.disabled = false;
 
             } catch (error) {
-                console.error("Error al conectar con la hoja:", error);
-                alert("Hubo un error al enviar los datos a la hoja de cálculo.");
+                console.error("Error:", error);
+                alert("Error al enviar los datos.");
                 event.target.disabled = false;
                 event.target.innerText = "Registrar Orden";
             }
         }
 
-        // CARGAR MOTOS CON ESTADO EDITABLE (SELECT)
+        // CARGAR MOTOS CON SELECTOR DE ESTADO Y BOTÓN DE EDITAR
         function cargarMotos() {
             let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
             let html = '';
@@ -665,7 +723,7 @@
                     html += `<tr>
                         <td><strong>${m.cliente}</strong><br><small class="text-muted">${m.modelo} (${m.placa || 'Sin placa'})</small></td>
                         <td>
-                            <select class="form-select form-select-sm" onchange="cambiarEstadoMoto(${index}, this.value)">
+                            <select class="form-select form-select-sm" onchange="cambiarEstadoDirecto(${index}, this.value)">
                                 <option value="Pendiente de revisión" ${m.estado === 'Pendiente de revisión' ? 'selected' : ''}>Pendiente de revisión</option>
                                 <option value="En Diagnóstico" ${m.estado === 'En Diagnóstico' ? 'selected' : ''}>En Diagnóstico</option>
                                 <option value="En Reparación" ${m.estado === 'En Reparación' ? 'selected' : ''}>En Reparación</option>
@@ -673,7 +731,10 @@
                             </select>
                         </td>
                         <td>L ${m.manoObra}</td>
-                        <td><button class="btn btn-danger btn-sm" onclick="eliminarMoto(${index})"><i class="fas fa-trash"></i></button></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm text-white me-1" onclick="abrirModalEditar(${index})" title="Editar Cliente/Moto"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarMoto(${index})" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        </td>
                     </tr>`;
                 });
             }
@@ -681,21 +742,99 @@
             document.getElementById('lbl-motos-activas').innerText = activas;
         }
 
-        // FUNCIÓN PARA ACTUALIZAR EL ESTADO DIRECTAMENTE DESDE LA TABLA
-        function cambiarEstadoMoto(index, nuevoEstado) {
+        // CAMBIAR SOLO ESTADO DESDE EL SELECTOR DE LA TABLA
+        async function cambiarEstadoDirecto(index, nuevoEstado) {
             let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
             if(motos[index]) {
                 motos[index].estado = nuevoEstado;
                 localStorage.setItem('mec_motos', JSON.stringify(motos));
-                cargarMotos(); // Recarga para actualizar contadores y vista
+                
+                // Actualizar también en la hoja de cálculo
+                let datosActualizados = { action: "update", index: index, ...motos[index] };
+                try {
+                    await fetch(urlGoogleScript, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(datosActualizados)
+                    });
+                } catch(e) { console.error("Error al sincronizar estado:", e); }
+
+                cargarMotos();
             }
         }
 
-        function eliminarMoto(index) {
+        // ABRIR MODAL PARA EDITAR TODOS LOS DATOS
+        function abrirModalEditar(index) {
             let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
-            motos.splice(index, 1);
+            let m = motos[index];
+            if(!m) return;
+
+            document.getElementById('edit-index').value = index;
+            document.getElementById('edit-cliente').value = m.cliente || '';
+            document.getElementById('edit-telefono').value = m.telefono || '';
+            document.getElementById('edit-placa').value = m.placa || '';
+            document.getElementById('edit-modelo').value = m.modelo || '';
+            document.getElementById('edit-kilometraje').value = m.kilometraje || '';
+            document.getElementById('edit-estado').value = m.estado || 'Pendiente de revisión';
+            document.getElementById('edit-falla').value = m.falla || '';
+            document.getElementById('edit-mano-obra').value = m.manoObra || 0;
+
+            let modal = new bootstrap.Modal(document.getElementById('modalEditarOrden'));
+            modal.show();
+        }
+
+        // GUARDAR EDICIÓN COMPLETA (CLIENTE, VEHÍCULO, ETC.)
+        async function guardarEdicionOrden() {
+            let index = parseInt(document.getElementById('edit-index').value);
+            let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
+
+            let cliente = document.getElementById('edit-cliente').value;
+            let telefono = document.getElementById('edit-telefono').value;
+            let placa = document.getElementById('edit-placa').value;
+            let modelo = document.getElementById('edit-modelo').value;
+            let kilometraje = document.getElementById('edit-kilometraje').value;
+            let estado = document.getElementById('edit-estado').value;
+            let falla = document.getElementById('edit-falla').value;
+            let manoObra = parseFloat(document.getElementById('edit-mano-obra').value) || 0;
+
+            if(!cliente || !modelo) {
+                alert("El cliente y el modelo son obligatorios.");
+                return;
+            }
+
+            motos[index] = { cliente, telefono, placa, modelo, kilometraje, estado, falla, manoObra };
             localStorage.setItem('mec_motos', JSON.stringify(motos));
+
+            // Sincronizar con Google Sheets
+            let datosActualizados = { action: "update", index: index, ...motos[index] };
+            try {
+                await fetch(urlGoogleScript, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(datosActualizados)
+                });
+                alert("¡Orden actualizada en el sistema y en Google Sheets!");
+            } catch (error) {
+                console.error("Error al actualizar en la nube:", error);
+                alert("Guardado localmente, pero hubo un problema al sincronizar con la nube.");
+            }
+
+            // Cerrar modal y recargar tabla
+            let modalEl = document.getElementById('modalEditarOrden');
+            let modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
             cargarMotos();
+        }
+
+        function eliminarMoto(index) {
+            if(confirm("¿Deseas eliminar esta orden de la lista local?")) {
+                let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
+                motos.splice(index, 1);
+                localStorage.setItem('mec_motos', JSON.stringify(motos));
+                cargarMotos();
+            }
         }
 
         function guardarCita() {
