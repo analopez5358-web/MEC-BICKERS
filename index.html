@@ -22,7 +22,6 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
             --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
-
         [data-theme="rojo"] {
             --bg-primary: #1a0c0c;
             --bg-secondary: #2a1414;
@@ -33,7 +32,6 @@
             --text-muted: #fca5a5;
             --border-color: #4a2424;
         }
-
         [data-theme="azul"] {
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
@@ -44,7 +42,6 @@
             --text-muted: #94a3b8;
             --border-color: #475569;
         }
-
         [data-theme="verde"] {
             --bg-primary: #061712;
             --bg-secondary: #0d2820;
@@ -55,7 +52,6 @@
             --text-muted: #6ee7b7;
             --border-color: #1e4e3d;
         }
-
         /* ESTILOS GENERALES Y RESET */
         * {
             box-sizing: border-box;
@@ -63,7 +59,6 @@
             padding: 0;
             font-family: var(--font-family);
         }
-
         body {
             background-color: var(--bg-primary);
             color: var(--text-main);
@@ -72,7 +67,6 @@
             flex-direction: column;
             line-height: 1.5;
         }
-
         /* HEADER Y NAVEGACIÓN RESPONSIVA */
         header {
             background-color: var(--bg-secondary);
@@ -86,7 +80,6 @@
             z-index: 100;
             box-shadow: var(--shadow);
         }
-
         .brand-title {
             font-size: 1.2rem;
             font-weight: bold;
@@ -95,14 +88,12 @@
             align-items: center;
             gap: 0.5rem;
         }
-
         .user-info {
             display: flex;
             align-items: center;
             gap: 0.75rem;
             font-size: 0.85rem;
         }
-
         .badge {
             background: var(--accent);
             color: #000;
@@ -111,7 +102,6 @@
             font-weight: bold;
             font-size: 0.75rem;
         }
-
         .btn-logout {
             background: var(--danger);
             color: white;
@@ -121,7 +111,6 @@
             cursor: pointer;
             font-size: 0.8rem;
         }
-
         /* MENÚ DE NAVEGACIÓN DESPLAZABLE */
         nav {
             background: var(--bg-secondary);
@@ -133,7 +122,6 @@
             gap: 0.5rem;
             -webkit-overflow-scrolling: touch;
         }
-
         .nav-btn {
             background: transparent;
             color: var(--text-muted);
@@ -148,13 +136,11 @@
             align-items: center;
             gap: 0.4rem;
         }
-
         .nav-btn.active, .nav-btn:hover {
             background: var(--bg-card);
             color: var(--text-main);
             border-color: var(--accent);
         }
-
         /* CONTENEDOR PRINCIPAL DE MÓDULOS */
         main {
             flex: 1;
@@ -163,15 +149,12 @@
             margin: 0 auto;
             width: 100%;
         }
-
         .module {
             display: none;
         }
-
         .module.active {
             display: block;
         }
-
         /* COMPONENTES DE UI: CARDS, TABLAS Y FORMULARIOS */
         .card {
             background: var(--bg-secondary);
@@ -181,7 +164,6 @@
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow);
         }
-
         .card-title {
             font-size: 1.1rem;
             font-weight: bold;
@@ -193,24 +175,20 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1rem;
         }
-
         .form-group {
             margin-bottom: 0.8rem;
         }
-
         .form-group label {
             display: block;
             font-size: 0.8rem;
             color: var(--text-muted);
             margin-bottom: 0.3rem;
         }
-
         input, select, textarea {
             width: 100%;
             padding: 0.55rem;
@@ -221,11 +199,9 @@
             font-size: 0.9rem;
             outline: none;
         }
-
         input:focus, select:focus, textarea:focus {
             border-color: var(--accent);
         }
-
         .btn {
             background: var(--accent);
             color: #000;
@@ -240,32 +216,26 @@
             transition: opacity 0.2s;
             display: inline-block;
         }
-
         .btn:hover {
             opacity: 0.9;
         }
-
         .btn-secondary {
             background: var(--bg-card);
             color: var(--text-main);
             border: 1px solid var(--border-color);
         }
-
         .btn-danger {
             background: var(--danger);
             color: white;
         }
-
         .btn-success {
             background: var(--success);
             color: white;
         }
-
         .btn-group {
             display: flex;
             gap: 0.5rem;
         }
-
         /* TABLAS RESPONSIVAS CON SCROLL HORIZONTAL */
         .table-responsive {
             width: 100%;
@@ -274,30 +244,25 @@
             border-radius: 6px;
             border: 1px solid var(--border-color);
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
             font-size: 0.85rem;
         }
-
         th, td {
             padding: 0.6rem 0.8rem;
             border-bottom: 1px solid var(--border-color);
             white-space: nowrap;
         }
-
         th {
             background: var(--bg-card);
             color: var(--accent);
             font-weight: bold;
         }
-
         tr:hover {
             background: rgba(255, 255, 255, 0.02);
         }
-
         /* MODAL PERSONALIZADO SIN ALERT/CONFIRM */
         .modal-overlay {
             position: fixed;
@@ -312,11 +277,9 @@
             z-index: 1000;
             padding: 1rem;
         }
-
         .modal-overlay.active {
             display: flex;
         }
-
         .modal-content {
             background: var(--bg-secondary);
             border-radius: 8px;
@@ -328,7 +291,6 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-
         /* PANTALLA DE LOGIN */
         #login-screen {
             position: fixed;
@@ -343,7 +305,6 @@
             justify-content: center;
             padding: 1rem;
         }
-
         .login-box {
             background: var(--bg-secondary);
             padding: 2rem;
@@ -354,19 +315,16 @@
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
         .login-box h1 {
             color: var(--accent);
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
-
         .login-box p {
             color: var(--text-muted);
             font-size: 0.85rem;
             margin-bottom: 1.5rem;
         }
-
         /* MENSAJES DE NOTIFICACIÓN */
         #toast-container {
             position: fixed;
@@ -377,7 +335,6 @@
             flex-direction: column;
             gap: 0.5rem;
         }
-
         .toast {
             padding: 0.8rem 1.2rem;
             border-radius: 6px;
@@ -388,16 +345,13 @@
             font-size: 0.85rem;
             animation: fadeIn 0.3s forwards;
         }
-
         .toast.success { border-left-color: var(--success); }
         .toast.danger { border-left-color: var(--danger); }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* ESTILOS DE IMPRESIÓN (FACTURA / ORDEN TECNICA) */
+        /* ESTILOS DE IMPRESIÓN */
         @media print {
             body * {
                 visibility: hidden;
@@ -446,7 +400,6 @@
     </style>
 </head>
 <body>
-
     <div id="login-screen">
         <div class="login-box">
             <h1>MEC BIKERS</h1>
@@ -470,7 +423,6 @@
             </div>
         </div>
     </div>
-
     <!-- HEADER PRINCIPAL -->
     <header id="main-header" style="display:none;">
         <div class="brand-title">
@@ -482,7 +434,6 @@
             <button class="btn-logout" onclick="logout()">Salir</button>
         </div>
     </header>
-
     <nav id="main-nav" style="display:none;">
         <button class="nav-btn active" onclick="switchModule('pos')">🛒 POS / Venta</button>
         <button class="nav-btn" onclick="switchModule('inventario')">📦 Inventario</button>
@@ -493,10 +444,8 @@
         <button class="nav-btn" onclick="switchModule('config-factura')">⚙️ Config. Factura</button>
         <button class="nav-btn" onclick="switchModule('config-sistema')">🔧 Sistema / Temas</button>
     </nav>
-
     <!-- CONTENIDO DE MÓDULOS -->
     <main id="main-content" style="display:none;">
-
         <!-- 1. MÓDULO POS / VENTA DE REPUESTOS -->
         <section id="mod-pos" class="module active">
             <div class="grid">
@@ -522,7 +471,6 @@
                             </table>
                         </div>
                     </div>
-
                     <!-- Carrito de Compras -->
                     <div class="card">
                         <div class="card-title">
@@ -545,7 +493,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Detalle y Pago -->
                 <div>
                     <div class="card">
@@ -559,7 +506,6 @@
                             <input type="text" id="pos-client-id" placeholder="0000000000000">
                         </div>
                     </div>
-
                     <div class="card">
                         <div class="card-title">Resumen de Cuenta</div>
                         <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
@@ -582,7 +528,6 @@
                             <span>Cambio:</span>
                             <span id="pos-change" style="color:var(--success);">0.00</span>
                         </div>
-
                         <div class="btn-group" style="flex-direction: column;">
                             <button class="btn btn-success" onclick="processSale(false)">💾 Procesar Venta / Facturar</button>
                             <button class="btn btn-secondary" onclick="processSale(true)">📄 Generar Cotización</button>
@@ -591,7 +536,6 @@
                 </div>
             </div>
         </section>
-
         <section id="mod-inventario" class="module">
             <div class="card">
                 <div class="card-title">
@@ -634,7 +578,6 @@
                         <button type="submit" class="btn" id="prod-btn-save">Guardar Producto</button>
                     </div>
                 </form>
-
                 <!-- Filtros -->
                 <div class="grid" style="margin-bottom:1rem; grid-template-columns: 2fr 1fr 1fr;">
                     <input type="text" id="inv-search" placeholder="🔍 Filtrar repuestos..." oninput="renderInventory()">
@@ -648,7 +591,6 @@
                         <option value="low">Solo Bajo Stock ⚠️</option>
                     </select>
                 </div>
-
                 <!-- Tabla de Productos -->
                 <div class="table-responsive">
                     <table>
@@ -669,7 +611,6 @@
                 </div>
             </div>
         </section>
-
         <section id="mod-ventas" class="module">
             <div class="card">
                 <div class="card-title">Historial de Ventas y Cotizaciones</div>
@@ -694,7 +635,6 @@
                 </div>
             </div>
         </section>
-
         <section id="mod-ordenes" class="module">
             <div class="card">
                 <div class="card-title">Registrar Nueva Órden de Trabajo (OT)</div>
@@ -719,6 +659,10 @@
                         <input type="text" id="ord-moto-plate" placeholder="M-123456">
                     </div>
                     <div class="form-group">
+                        <label>Kilometraje</label>
+                        <input type="text" id="ord-moto-km" placeholder="15000 km">
+                    </div>
+                    <div class="form-group">
                         <label>Chasis / VIN</label>
                         <input type="text" id="ord-moto-vin" placeholder="384729384792">
                     </div>
@@ -726,7 +670,6 @@
                         <label>Color</label>
                         <input type="text" id="ord-moto-color" placeholder="Negro / Rojo">
                     </div>
-
                     <!-- Diagnóstico Técnico -->
                     <div class="form-group" style="grid-column: 1 / -1;">
                         <label>Reporte de Falla (Cliente)</label>
@@ -736,7 +679,6 @@
                         <label>Diagnóstico Técnico Dinámico</label>
                         <textarea id="ord-diag" rows="2" placeholder="Requiere cambio de pastillas y ajuste de válvulas..."></textarea>
                     </div>
-
                     <!-- Costos -->
                     <div class="form-group">
                         <label>Costo Mano de Obra</label>
@@ -751,7 +693,6 @@
                             <option value="Listo para Entregar">Listo para Entregar</option>
                         </select>
                     </div>
-
                     <!-- Selección de Repuestos para la Orden -->
                     <div style="grid-column: 1 / -1; background: var(--bg-primary); padding: 0.8rem; border-radius:6px; border:1px solid var(--border-color);">
                         <label style="font-weight:bold; color:var(--accent);">Añadir Repuesto del Inventario a la Orden</label>
@@ -762,14 +703,12 @@
                             <input type="number" id="ord-part-qty" value="1" min="1" placeholder="Cant">
                             <button type="button" class="btn btn-secondary" onclick="addPartToOrder()">+ Agregar Repuesto</button>
                         </div>
-
                         <!-- Repuestos Suministrados por Cliente -->
                         <div class="grid" style="grid-template-columns: 2fr 1fr 1fr; margin-top:0.5rem;">
                             <input type="text" id="ord-cust-part" placeholder="Repuesto Traído por Cliente (Costo 0.00)">
                             <input type="number" id="ord-cust-part-qty" value="1" min="1" placeholder="Cant">
                             <button type="button" class="btn btn-secondary" onclick="addCustomerPartToOrder()">+ Agregar del Cliente</button>
                         </div>
-
                         <!-- Lista Repuestos Agregados OT -->
                         <div class="table-responsive" style="margin-top:0.8rem;">
                             <table>
@@ -787,18 +726,15 @@
                             </table>
                         </div>
                     </div>
-
                     <div style="grid-column: 1 / -1; text-align:right; font-weight:bold; font-size:1.1rem;">
                         Total Estimado OT: <span id="ord-total-display" style="color:var(--accent);">0.00</span>
                     </div>
-
                     <div style="grid-column: 1 / -1;">
                         <button type="submit" class="btn">Guardar Orden de Trabajo</button>
                     </div>
                 </form>
             </div>
         </section>
-
         <section id="mod-historial-ordenes" class="module">
             <div class="card">
                 <div class="card-title">Historial General de Órdenes de Trabajo</div>
@@ -824,7 +760,6 @@
                 </div>
             </div>
         </section>
-
         <section id="mod-contabilidad" class="module">
             <div class="card">
                 <div class="card-title">Módulo Contable y Financiero (Exclusivo Admin)</div>
@@ -846,7 +781,6 @@
                         <div id="acc-tax-rev" style="font-size:1.3rem; font-weight:bold; color:var(--warning);">0.00</div>
                     </div>
                 </div>
-
                 <div class="card" style="background:var(--bg-card); border:2px solid var(--accent); text-align:center;">
                     <div style="font-size:1rem; color:var(--text-main);">GANANCIA NETA TOTAL ACUMULADA</div>
                     <div id="acc-total-net-profit" style="font-size:2rem; font-weight:bold; color:var(--success); margin-top:0.3rem;">0.00</div>
@@ -854,7 +788,6 @@
                 </div>
             </div>
         </section>
-
         <section id="mod-config-factura" class="module">
             <div class="card">
                 <div class="card-title">Configuración de Encabezado y Pie de Factura</div>
@@ -892,7 +825,6 @@
                 </form>
             </div>
         </section>
-
         <section id="mod-config-sistema" class="module">
             <div class="card">
                 <div class="card-title">Configuración de Sistema, Temas y Seguridad</div>
@@ -915,7 +847,6 @@
                             <input type="text" id="cfg-currency" value="L." onchange="saveCurrency(this.value)">
                         </div>
                     </div>
-
                     <!-- Cambiar Contraseñas -->
                     <div>
                         <h4 style="color:var(--accent); margin-bottom:0.5rem;">Cambiar Contraseña</h4>
@@ -939,9 +870,7 @@
                         </form>
                     </div>
                 </div>
-
                 <hr style="border-color:var(--border-color); margin: 1.5rem 0;">
-
                 <!-- Copia de Seguridad JSON -->
                 <div class="grid">
                     <div>
@@ -951,7 +880,6 @@
                             <button class="btn btn-secondary" onclick="exportBackup()">📥 Descargar Backup JSON</button>
                         </div>
                     </div>
-
                     <div>
                         <h4 style="color:var(--accent); margin-bottom:0.5rem;">Restaurar Datos</h4>
                         <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.8rem;">Carga un archivo de respaldo previamente guardado.</p>
@@ -959,9 +887,7 @@
                         <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">📤 Importar Backup JSON</button>
                     </div>
                 </div>
-
                 <hr style="border-color:var(--border-color); margin: 1.5rem 0;">
-
                 <div>
                     <h4 style="color:var(--danger); margin-bottom:0.5rem;">Restablecimiento del Sistema</h4>
                     <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.8rem;">Borra todos los datos del inventario, historial de ventas y órdenes para iniciar desde cero.</p>
@@ -969,10 +895,8 @@
                 </div>
             </div>
         </section>
-
     </main>
-
-    <!-- MODAL DE VISTA PREVIA E IMPRESIÓN (SIN ALERT/CONFIRM) -->
+    <!-- MODAL DE VISTA PREVIA E IMPRESIÓN -->
     <div id="modal-container" class="modal-overlay">
         <div class="modal-content">
             <div class="card-title">
@@ -981,18 +905,15 @@
             </div>
             <div id="modal-body"></div>
             <div class="btn-group" style="margin-top:1rem;" id="modal-actions">
-                <button class="btn" onclick="printModalContent()">🖨️️ Imprimir Ticket / Documento</button>
+                <button class="btn" onclick="printModalContent()">🖨 Imprimir Ticket / Documento</button>
                 <button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>
             </div>
         </div>
     </div>
-
     <!-- AREA OCULTA EXCLUSIVA PARA IMPRESIÓN DIRECTA -->
     <div id="printable-area"></div>
-
     <!-- TOAST DE NOTIFICACIONES -->
     <div id="toast-container"></div>
-
     <script>
         /* BASE DE DATOS LOCAL Y VALORES PREDETERMINADOS */
         const DEFAULT_DATA = {
@@ -1019,48 +940,60 @@
             sales: [],
             orders: []
         };
-
         // Estado Global de la App
         let db = JSON.parse(localStorage.getItem('MEC_BIKERS_DB')) || DEFAULT_DATA;
         let currentUser = null;
         let cart = [];
         let tempOrderParts = [];
 
+        // Función para Sincronizar con Google Sheets
+        function syncWithGoogleSheets(actionData) {
+            const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw_JhGKnJXCrzaxFshtKsNHuCxGPT46YyIb6sn-zCwMk8Ci9TXswt-JV_o6zNH5BSXx/exec";
+            
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(actionData)
+            })
+            .then(() => {
+                showToast('Sincronizado con Google Sheets 📊', 'success');
+            })
+            .catch(error => {
+                console.error("Error de sincronización:", error);
+            });
+        }
+
         // Guardar cambios en LocalStorage
         function saveData() {
             localStorage.setItem('MEC_BIKERS_DB', JSON.stringify(db));
         }
-
         /* INICIALIZACIÓN AL CARGAR LA PÁGINA */
         window.onload = function() {
             applyTheme(db.config.theme || 'default');
             initLogin();
         };
-
         function initLogin() {
             document.getElementById('login-form').onsubmit = function(e) {
                 e.preventDefault();
                 const u = document.getElementById('login-user').value;
                 const p = document.getElementById('login-pass').value;
-
                 if (db.users[u] && db.users[u].pass === p) {
                     currentUser = { username: u, ...db.users[u] };
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('main-header').style.display = 'flex';
                     document.getElementById('main-nav').style.display = 'flex';
                     document.getElementById('main-content').style.display = 'block';
-
                     document.getElementById('user-display').textContent = currentUser.name;
                     document.getElementById('role-badge').textContent = currentUser.role;
-
-                    // Restringir módulo de contabilidad si no es admin
                     const contabilidadBtn = document.getElementById('nav-contabilidad');
                     if (currentUser.role !== 'Administrador') {
                         contabilidadBtn.style.display = 'none';
                     } else {
                         contabilidadBtn.style.display = 'inline-flex';
                     }
-
                     showToast(`Bienvenido al sistema, ${currentUser.name}`, 'success');
                     loadConfigForms();
                     renderPosCatalog();
@@ -1073,7 +1006,6 @@
                 }
             };
         }
-
         function logout() {
             currentUser = null;
             document.getElementById('login-screen').style.display = 'flex';
@@ -1083,45 +1015,36 @@
             document.getElementById('login-pass').value = '';
             showToast('Sesión cerrada correctamente.', 'success');
         }
-
         function switchModule(modId) {
             if (modId === 'contabilidad' && currentUser.role !== 'Administrador') {
                 showToast('Acceso restringido solo para Administradores', 'danger');
                 return;
             }
-
             document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
             document.getElementById(`mod-${modId}`).classList.add('active');
             event.target.classList.add('active');
-
             if (modId === 'contabilidad') calculateAccounting();
             if (modId === 'pos') renderPosCatalog();
         }
-
         function applyTheme(themeName) {
             document.documentElement.setAttribute('data-theme', themeName);
             db.config.theme = themeName;
             saveData();
         }
-
         function changeTheme(themeName) {
             applyTheme(themeName);
             showToast('Tema visual actualizado', 'success');
         }
-
         function saveCurrency(symbol) {
             db.config.currency = symbol || 'L.';
             saveData();
             showToast('Símbolo de moneda actualizado', 'success');
         }
-
         function renderPosCatalog() {
             const query = document.getElementById('pos-search').value.toLowerCase();
             const body = document.getElementById('pos-catalog-body');
             body.innerHTML = '';
-
             db.inventory
                 .filter(p => p.code.toLowerCase().includes(query) || p.name.toLowerCase().includes(query))
                 .forEach(p => {
@@ -1141,11 +1064,9 @@
                     body.appendChild(tr);
                 });
         }
-
         function addToCart(productId) {
             const prod = db.inventory.find(p => p.id === productId);
             if (!prod) return;
-
             const existing = cart.find(item => item.id === productId);
             if (existing) {
                 if (existing.qty + 1 > prod.stock) {
@@ -1158,7 +1079,6 @@
             }
             renderCart();
         }
-
         function updateCartQty(productId, newQty) {
             const prod = db.inventory.find(p => p.id === productId);
             const qty = parseInt(newQty);
@@ -1175,26 +1095,21 @@
             }
             renderCart();
         }
-
         function removeFromCart(productId) {
             cart = cart.filter(i => i.id !== productId);
             renderCart();
         }
-
         function clearCart() {
             cart = [];
             renderCart();
         }
-
         function renderCart() {
             const body = document.getElementById('cart-body');
             body.innerHTML = '';
             let subtotal = 0;
-
             cart.forEach(item => {
                 const itemSub = item.price * item.qty;
                 subtotal += itemSub;
-
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${item.name}</td>
@@ -1205,19 +1120,15 @@
                 `;
                 body.appendChild(tr);
             });
-
             const taxRate = db.config.taxActive ? (db.config.taxRate / 100) : 0;
             const tax = subtotal * taxRate;
             const total = subtotal + tax;
-
             document.getElementById('pos-subtotal').textContent = `${db.config.currency} ${subtotal.toFixed(2)}`;
             document.getElementById('pos-tax').textContent = `${db.config.currency} ${tax.toFixed(2)}`;
             document.getElementById('pos-tax-label').textContent = `ISV (${db.config.taxActive ? db.config.taxRate : 0}%):`;
             document.getElementById('pos-total').textContent = `${db.config.currency} ${total.toFixed(2)}`;
-
             calcChange();
         }
-
         function calcChange() {
             const totalStr = document.getElementById('pos-total').textContent.replace(/[^\d.]/g, '');
             const total = parseFloat(totalStr) || 0;
@@ -1225,26 +1136,21 @@
             const change = pay - total;
             document.getElementById('pos-change').textContent = `${db.config.currency} ${change > 0 ? change.toFixed(2) : '0.00'}`;
         }
-
         function processSale(isQuote = false) {
             if (cart.length === 0) {
                 showToast('El carrito está vacío', 'danger');
                 return;
             }
-
             const clientName = document.getElementById('pos-client-name').value.trim() || 'Consumidor Final';
             const clientId = document.getElementById('pos-client-id').value.trim() || 'N/A';
-
             let subtotal = 0;
             let costTotal = 0;
             cart.forEach(item => {
                 subtotal += item.price * item.qty;
                 costTotal += item.cost * item.qty;
             });
-
             const tax = db.config.taxActive ? (subtotal * (db.config.taxRate / 100)) : 0;
             const total = subtotal + tax;
-
             const saleRecord = {
                 id: 'FAC-' + Date.now().toString().slice(-6),
                 date: new Date().toLocaleString(),
@@ -1258,9 +1164,7 @@
                 isQuote,
                 status: isQuote ? 'COTIZACION' : 'COMPLETADA'
             };
-
             if (!isQuote) {
-                // Descontar Stock
                 cart.forEach(item => {
                     const prod = db.inventory.find(p => p.id === item.id);
                     if (prod) prod.stock -= item.qty;
@@ -1269,14 +1173,13 @@
             } else {
                 showToast('Cotización creada correctamente', 'success');
             }
-
             db.sales.unshift(saleRecord);
             saveData();
+            
+            // Sincronizar con Google Sheets (Pestaña Ventas)
+            syncWithGoogleSheets({ action: "sale", ...saleRecord });
 
-            // Vista previa ticket
             showSaleTicket(saleRecord);
-
-            // Limpiar formulario POS
             cart = [];
             renderCart();
             renderPosCatalog();
@@ -1285,7 +1188,6 @@
             document.getElementById('pos-client-id').value = '';
             document.getElementById('pos-pay-amount').value = '';
         }
-
         function calcMargin() {
             const cost = parseFloat(document.getElementById('prod-cost').value) || 0;
             const price = parseFloat(document.getElementById('prod-price').value) || 0;
@@ -1296,7 +1198,6 @@
                 document.getElementById('prod-margin').value = '0%';
             }
         }
-
         function saveProduct(e) {
             e.preventDefault();
             const id = document.getElementById('prod-id').value;
@@ -1306,28 +1207,38 @@
             const price = parseFloat(document.getElementById('prod-price').value) || 0;
             const stock = parseInt(document.getElementById('prod-stock').value) || 0;
             const minStock = parseInt(document.getElementById('prod-min-stock').value) || 0;
+            const marginVal = document.getElementById('prod-margin').value.replace('%','');
 
             if (id) {
-                // Editar existente
                 const index = db.inventory.findIndex(p => p.id == id);
                 if (index !== -1) {
                     db.inventory[index] = { id: parseInt(id), code, name, cost, price, stock, minStock };
                     showToast('Producto actualizado correctamente', 'success');
                 }
             } else {
-                // Nuevo producto
                 const newId = Date.now();
                 db.inventory.push({ id: newId, code, name, cost, price, stock, minStock });
                 showToast('Nuevo repuesto ingresado', 'success');
             }
-
             saveData();
+
+            // Sincronizar con Google Sheets (Pestaña Inventario)
+            syncWithGoogleSheets({
+                action: "inventory",
+                code: code,
+                name: name,
+                cost: cost,
+                price: price,
+                margin: marginVal,
+                stock: stock,
+                minStock: minStock
+            });
+
             resetProductForm();
             renderInventory();
             renderPosCatalog();
             updateOrderPartsSelect();
         }
-
         function editProduct(id) {
             const p = db.inventory.find(prod => prod.id === id);
             if (!p) return;
@@ -1341,7 +1252,6 @@
             document.getElementById('prod-btn-save').textContent = 'Actualizar Repuesto';
             calcMargin();
         }
-
         function deleteProduct(id) {
             openCustomModal('Confirmación', '¿Está seguro de eliminar este repuesto del inventario?', [
                 { text: 'Sí, Eliminar', class: 'btn-danger', action: () => {
@@ -1356,39 +1266,31 @@
                 { text: 'Cancelar', class: 'btn-secondary', action: closeModal }
             ]);
         }
-
         function resetProductForm() {
             document.getElementById('product-form').reset();
             document.getElementById('prod-id').value = '';
             document.getElementById('prod-btn-save').textContent = 'Guardar Producto';
             document.getElementById('prod-margin').value = '0%';
         }
-
         function renderInventory() {
             const query = document.getElementById('inv-search').value.toLowerCase();
             const sort = document.getElementById('inv-sort').value;
             const filterStock = document.getElementById('inv-filter-stock').value;
-
             let list = db.inventory.filter(p => p.code.toLowerCase().includes(query) || p.name.toLowerCase().includes(query));
-
             if (filterStock === 'low') {
                 list = list.filter(p => p.stock <= p.minStock);
             }
-
             list.sort((a, b) => {
                 if (sort === 'name') return a.name.localeCompare(b.name);
                 if (sort === 'code') return a.code.localeCompare(b.code);
                 if (sort === 'stock') return a.stock - b.stock;
                 return 0;
             });
-
             const body = document.getElementById('inventory-body');
             body.innerHTML = '';
-
             list.forEach(p => {
                 const margin = p.cost > 0 ? (((p.price - p.cost) / p.cost) * 100).toFixed(1) : 0;
                 const isLow = p.stock <= p.minStock;
-
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td><b>${p.code}</b></td>
@@ -1412,12 +1314,10 @@
                 body.appendChild(tr);
             });
         }
-
         function renderSalesHistory() {
             const query = document.getElementById('sales-search').value.toLowerCase();
             const body = document.getElementById('sales-history-body');
             body.innerHTML = '';
-
             db.sales
                 .filter(s => s.id.toLowerCase().includes(query) || s.clientName.toLowerCase().includes(query) || s.date.toLowerCase().includes(query))
                 .forEach(s => {
@@ -1444,14 +1344,12 @@
                     body.appendChild(tr);
                 });
         }
-
         function cancelSale(saleId) {
             openCustomModal('Anular Venta', `¿Desea anular la venta ${saleId}? El stock de los repuestos será restaurado al inventario.`, [
                 { text: 'Sí, Anular y Devolver Stock', class: 'btn-danger', action: () => {
                     const sale = db.sales.find(s => s.id === saleId);
                     if (sale && sale.status !== 'ANULADA') {
                         sale.status = 'ANULADA';
-                        // Restaurar Stock
                         sale.items.forEach(item => {
                             const prod = db.inventory.find(p => p.id === item.id);
                             if (prod) prod.stock += item.qty;
@@ -1467,7 +1365,6 @@
                 { text: 'Cancelar', class: 'btn-secondary', action: closeModal }
             ]);
         }
-
         function showSaleTicket(sale) {
             const title = sale.isQuote ? 'COTIZACIÓN DE REPUESTOS' : 'FACTURA DE VENTA';
             let itemsHtml = '';
@@ -1481,7 +1378,6 @@
                     </tr>
                 `;
             });
-
             const html = `
                 <div class="ticket-header">
                     <h2>${db.config.companyName}</h2>
@@ -1512,13 +1408,11 @@
                     <p>${db.config.footerMsg}</p>
                 </div>
             `;
-
             openCustomModal(`Documento: ${sale.id}`, html, [
                 { text: '🖨️ Imprimir Ticket', class: 'btn', action: () => printHTML(html) },
                 { text: 'Cerrar', class: 'btn-secondary', action: closeModal }
             ]);
         }
-
         function updateOrderPartsSelect() {
             const select = document.getElementById('ord-select-part');
             select.innerHTML = '<option value="">-- Seleccionar Repuesto --</option>';
@@ -1528,22 +1422,18 @@
                 }
             });
         }
-
         function addPartToOrder() {
             const select = document.getElementById('ord-select-part');
             const qtyInput = document.getElementById('ord-part-qty');
             const id = parseInt(select.value);
             const qty = parseInt(qtyInput.value) || 1;
-
             if (!id) return;
             const prod = db.inventory.find(p => p.id === id);
             if (!prod) return;
-
             if (qty > prod.stock) {
                 showToast('Cantidad supera stock del taller', 'danger');
                 return;
             }
-
             tempOrderParts.push({
                 id: prod.id,
                 name: prod.name,
@@ -1552,18 +1442,14 @@
                 qty: qty,
                 source: 'INVENTARIO'
             });
-
             renderOrderPartsTable();
         }
-
         function addCustomerPartToOrder() {
             const nameInput = document.getElementById('ord-cust-part');
             const qtyInput = document.getElementById('ord-cust-part-qty');
             const name = nameInput.value.trim();
             const qty = parseInt(qtyInput.value) || 1;
-
             if (!name) return;
-
             tempOrderParts.push({
                 id: null,
                 name: name + ' (Cliente)',
@@ -1572,16 +1458,13 @@
                 qty: qty,
                 source: 'CLIENTE'
             });
-
             nameInput.value = '';
             renderOrderPartsTable();
         }
-
         function removeOrderPart(index) {
             tempOrderParts.splice(index, 1);
             renderOrderPartsTable();
         }
-
         function renderOrderPartsTable() {
             const body = document.getElementById('ord-parts-body');
             body.innerHTML = '';
@@ -1598,10 +1481,8 @@
                 `;
                 body.appendChild(tr);
             });
-
             calcOrderTotals();
         }
-
         function calcOrderTotals() {
             const labor = parseFloat(document.getElementById('ord-labor').value) || 0;
             let partsTotal = 0;
@@ -1611,7 +1492,6 @@
             const grandTotal = labor + partsTotal;
             document.getElementById('ord-total-display').textContent = `${db.config.currency} ${grandTotal.toFixed(2)}`;
         }
-
         function saveOrder(e) {
             e.preventDefault();
             const id = document.getElementById('ord-id').value;
@@ -1619,27 +1499,25 @@
             const phone = document.getElementById('ord-phone').value.trim();
             const motoModel = document.getElementById('ord-moto-model').value.trim();
             const motoPlate = document.getElementById('ord-moto-plate').value.trim();
+            const kilometraje = document.getElementById('ord-moto-km').value.trim();
             const motoVin = document.getElementById('ord-moto-vin').value.trim();
             const motoColor = document.getElementById('ord-moto-color').value.trim();
             const fault = document.getElementById('ord-fault').value.trim();
             const diag = document.getElementById('ord-diag').value.trim();
             const labor = parseFloat(document.getElementById('ord-labor').value) || 0;
             const status = document.getElementById('ord-status').value;
-
             let partsTotal = 0;
             let partsCostTotal = 0;
             tempOrderParts.forEach(p => {
                 partsTotal += p.price * p.qty;
                 partsCostTotal += p.cost * p.qty;
             });
-
             if (id) {
-                // Actualizar Orden
                 const index = db.orders.findIndex(o => o.id === id);
                 if (index !== -1) {
                     db.orders[index] = {
                         ...db.orders[index],
-                        client, phone, motoModel, motoPlate, motoVin, motoColor,
+                        client, phone, motoModel, motoPlate, kilometraje, motoVin, motoColor,
                         fault, diag, labor, status,
                         parts: [...tempOrderParts],
                         partsTotal, partsCostTotal,
@@ -1648,48 +1526,45 @@
                     showToast('Orden de trabajo actualizada', 'success');
                 }
             } else {
-                // Nueva Orden -> Descontar stock
                 tempOrderParts.forEach(p => {
                     if (p.source === 'INVENTARIO' && p.id) {
                         const prod = db.inventory.find(inv => inv.id === p.id);
                         if (prod) prod.stock -= p.qty;
                     }
                 });
-
                 const newOrder = {
                     id: 'OT-' + Date.now().toString().slice(-6),
                     date: new Date().toLocaleString(),
-                    client, phone, motoModel, motoPlate, motoVin, motoColor,
+                    client, phone, motoModel, motoPlate, kilometraje, motoVin, motoColor,
                     fault, diag, labor, status,
                     parts: [...tempOrderParts],
                     partsTotal, partsCostTotal,
                     grandTotal: labor + partsTotal
                 };
-
                 db.orders.unshift(newOrder);
                 showToast('Orden de Trabajo creada con éxito', 'success');
+                
+                // Sincronizar con Google Sheets (Pestaña Ordenes)
+                syncWithGoogleSheets({ action: "order", ...newOrder });
+
                 showOrderTicket(newOrder);
             }
-
             saveData();
             resetOrderForm();
             renderOrdersHistory();
             renderInventory();
             renderPosCatalog();
         }
-
         function resetOrderForm() {
             document.getElementById('order-form').reset();
             document.getElementById('ord-id').value = '';
             tempOrderParts = [];
             renderOrderPartsTable();
         }
-
         function renderOrdersHistory() {
             const query = document.getElementById('orders-search').value.toLowerCase();
             const body = document.getElementById('orders-history-body');
             body.innerHTML = '';
-
             db.orders
                 .filter(o => o.id.toLowerCase().includes(query) || o.client.toLowerCase().includes(query) || o.motoPlate.toLowerCase().includes(query) || o.motoModel.toLowerCase().includes(query))
                 .forEach(o => {
@@ -1713,7 +1588,6 @@
                     body.appendChild(tr);
                 });
         }
-
         function editOrder(id) {
             const o = db.orders.find(ord => ord.id === id);
             if (!o) return;
@@ -1723,24 +1597,22 @@
             document.getElementById('ord-phone').value = o.phone;
             document.getElementById('ord-moto-model').value = o.motoModel;
             document.getElementById('ord-moto-plate').value = o.motoPlate;
+            document.getElementById('ord-moto-km').value = o.kilometraje || '';
             document.getElementById('ord-moto-vin').value = o.motoVin;
             document.getElementById('ord-moto-color').value = o.motoColor;
             document.getElementById('ord-fault').value = o.fault;
             document.getElementById('ord-diag').value = o.diag;
             document.getElementById('ord-labor').value = o.labor;
             document.getElementById('ord-status').value = o.status;
-
             tempOrderParts = [...o.parts];
             renderOrderPartsTable();
         }
-
         function cancelOrder(id) {
             openCustomModal('Anular Orden', `¿Desea anular la Orden de Trabajo ${id}? Se devolverán los repuestos de inventario.`, [
                 { text: 'Sí, Anular', class: 'btn-danger', action: () => {
                     const o = db.orders.find(ord => ord.id === id);
                     if (o && o.status !== 'ANULADA') {
                         o.status = 'ANULADA';
-                        // Restaurar stock
                         o.parts.forEach(p => {
                             if (p.source === 'INVENTARIO' && p.id) {
                                 const prod = db.inventory.find(inv => inv.id === p.id);
@@ -1757,7 +1629,6 @@
                 { text: 'Cancelar', class: 'btn-secondary', action: closeModal }
             ]);
         }
-
         function showOrderTicket(order) {
             let partsHtml = '';
             order.parts.forEach(p => {
@@ -1770,7 +1641,6 @@
                     </tr>
                 `;
             });
-
             const html = `
                 <div class="ticket-header">
                     <h2>${db.config.companyName}</h2>
@@ -1779,7 +1649,7 @@
                 </div>
                 <div style="font-size:12px; margin-bottom:10px;">
                     <p><b>Cliente:</b> ${order.client} | <b>Tel:</b> ${order.phone || 'N/A'}</p>
-                    <p><b>Moto:</b> ${order.motoModel} | <b>Placa:</b> ${order.motoPlate || 'N/A'}</p>
+                    <p><b>Moto:</b> ${order.motoModel} | <b>Placa:</b> ${order.motoPlate || 'N/A'} | <b>KM:</b> ${order.kilometraje || 'N/A'}</p>
                     <p><b>Color:</b> ${order.motoColor || 'N/A'} | <b>VIN:</b> ${order.motoVin || 'N/A'}</p>
                     <p><b>Estado:</b> ${order.status}</p>
                     <hr style="margin:5px 0;">
@@ -1808,43 +1678,34 @@
                     <p style="margin-top:5px;">${db.config.footerMsg}</p>
                 </div>
             `;
-
             openCustomModal(`Orden Técnico: ${order.id}`, html, [
                 { text: '🖨️ Imprimir Orden Técnica', class: 'btn', action: () => printHTML(html) },
                 { text: 'Cerrar', class: 'btn-secondary', action: closeModal }
             ]);
         }
-
         function calculateAccounting() {
             let partsRev = 0;
             let partsCost = 0;
             let taxRev = 0;
-
-            // Ventas POS
             db.sales.filter(s => s.status === 'COMPLETADA').forEach(s => {
                 partsRev += s.subtotal;
                 partsCost += s.costTotal;
                 taxRev += s.tax;
             });
-
-            // Órdenes de Trabajo Finalizadas
             let laborRev = 0;
             db.orders.filter(o => o.status !== 'ANULADA').forEach(o => {
                 laborRev += o.labor;
                 partsRev += o.partsTotal;
                 partsCost += o.partsCostTotal;
             });
-
             const partsProfit = partsRev - partsCost;
             const netTotal = partsProfit + laborRev;
-
             document.getElementById('acc-parts-rev').textContent = `${db.config.currency} ${partsRev.toFixed(2)}`;
             document.getElementById('acc-parts-profit').textContent = `${db.config.currency} ${partsProfit.toFixed(2)}`;
             document.getElementById('acc-labor-rev').textContent = `${db.config.currency} ${laborRev.toFixed(2)}`;
             document.getElementById('acc-tax-rev').textContent = `${db.config.currency} ${taxRev.toFixed(2)}`;
             document.getElementById('acc-total-net-profit').textContent = `${db.config.currency} ${netTotal.toFixed(2)}`;
         }
-
         function loadConfigForms() {
             document.getElementById('cfg-company-name').value = db.config.companyName;
             document.getElementById('cfg-phone').value = db.config.phone;
@@ -1855,7 +1716,6 @@
             document.getElementById('cfg-theme-select').value = db.config.theme || 'default';
             document.getElementById('cfg-currency').value = db.config.currency || 'L.';
         }
-
         function saveInvoiceConfig(e) {
             e.preventDefault();
             db.config.companyName = document.getElementById('cfg-company-name').value.trim();
@@ -1864,33 +1724,27 @@
             db.config.taxRate = parseFloat(document.getElementById('cfg-tax-rate').value) || 0;
             db.config.taxActive = document.getElementById('cfg-tax-active').value === "true";
             db.config.footerMsg = document.getElementById('cfg-footer').value.trim();
-
             saveData();
             showToast('Configuración de factura guardada', 'success');
         }
-
         function changePassword(e) {
             e.preventDefault();
             const target = document.getElementById('pass-user-target').value;
             const current = document.getElementById('pass-current').value;
             const newPass = document.getElementById('pass-new').value;
-
             if (db.users[target].pass !== current) {
                 showToast('La contraseña actual es incorrecta', 'danger');
                 return;
             }
-
             db.users[target].pass = newPass;
             saveData();
             document.getElementById('pass-current').value = '';
             document.getElementById('pass-new').value = '';
             showToast(`Contraseña de ${target} actualizada con éxito`, 'success');
         }
-
         function openInventoryReport() {
             let rows = '';
             let totalValue = 0;
-
             db.inventory.forEach(p => {
                 const sub = p.cost * p.stock;
                 totalValue += sub;
@@ -1904,7 +1758,6 @@
                     </tr>
                 `;
             });
-
             const html = `
                 <div class="ticket-header">
                     <h2>${db.config.companyName}</h2>
@@ -1927,13 +1780,11 @@
                     VALOR TOTAL DEL INVENTARIO: ${db.config.currency} ${totalValue.toFixed(2)}
                 </div>
             `;
-
             openCustomModal('Reporte de Inventario', html, [
                 { text: '🖨️ Imprimir Reporte', class: 'btn', action: () => printHTML(html) },
                 { text: 'Cerrar', class: 'btn-secondary', action: closeModal }
             ]);
         }
-
         function exportBackup() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
             const dlAnchorElem = document.createElement('a');
@@ -1942,7 +1793,6 @@
             dlAnchorElem.click();
             showToast('Backup JSON descargado', 'success');
         }
-
         function importBackup(e) {
             const fileReader = new FileReader();
             fileReader.onload = function (event) {
@@ -1961,7 +1811,6 @@
             };
             fileReader.readAsText(e.target.files[0]);
         }
-
         function confirmResetApp() {
             openCustomModal('⚠️ Restablecer Sistema', '¿Está completamente seguro? Se eliminarán todos los repuestos, ventas y órdenes permanentemente.', [
                 { text: 'Sí, Borrar Todo', class: 'btn-danger', action: () => {
@@ -1971,14 +1820,11 @@
                 { text: 'Cancelar', class: 'btn-secondary', action: closeModal }
             ]);
         }
-
-        /* MODALES NATIVOS Y SISTEMA DE TOASTS */
         function openCustomModal(title, contentHtml, buttons = []) {
             document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-body').innerHTML = contentHtml;
             const actionsDiv = document.getElementById('modal-actions');
             actionsDiv.innerHTML = '';
-
             buttons.forEach(b => {
                 const btn = document.createElement('button');
                 btn.className = `btn ${b.class || ''}`;
@@ -1986,32 +1832,26 @@
                 btn.onclick = b.action;
                 actionsDiv.appendChild(btn);
             });
-
             document.getElementById('modal-container').classList.add('active');
         }
-
         function closeModal() {
             document.getElementById('modal-container').classList.remove('active');
         }
-
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.textContent = message;
             container.appendChild(toast);
-
             setTimeout(() => {
                 toast.remove();
             }, 3500);
         }
-
         function printHTML(html) {
             const printArea = document.getElementById('printable-area');
             printArea.innerHTML = html;
             window.print();
         }
-
         function printModalContent() {
             const content = document.getElementById('modal-body').innerHTML;
             printHTML(content);
