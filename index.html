@@ -3,994 +3,2018 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEC-BIKERS - Taller de Motocicletas</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <title>Moto Servicio MEC BIKERS - Sistema de Gestión</title>
     <style>
-        body { background-color: #f8f9fa; font-family: 'Inter', sans-serif; }
-        .seccion-app { display: none; }
-        
-        /* ESTILOS MENÚ HAMBURGUESA */
-        .sidebar {
-            height: 100vh;
-            width: 260px;
-            position: fixed;
-            top: 0;
-            left: -260px;
-            background-color: #212529;
-            transition: all 0.3s ease;
-            z-index: 1050;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
-            padding-top: 20px;
+        /* TEMAS VISUALES (Variables CSS) */
+        :root {
+            --bg-primary: #121824;
+            --bg-secondary: #1a2234;
+            --bg-card: #242f47;
+            --accent: #f59e0b; /* Naranja Mecánico */
+            --accent-hover: #d97706;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #374151;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        .sidebar.active { left: 0; }
-
-        .sidebar-header {
-            padding: 10px 20px;
-            font-size: 1.2rem;
-            color: #fff;
-            border-bottom: 1px solid #374151;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        [data-theme="rojo"] {
+            --bg-primary: #1a0c0c;
+            --bg-secondary: #2a1414;
+            --bg-card: #3a1c1c;
+            --accent: #dc2626;
+            --accent-hover: #b91c1c;
+            --text-main: #fcfcfc;
+            --text-muted: #fca5a5;
+            --border-color: #4a2424;
         }
 
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
+        [data-theme="azul"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #475569;
+        }
+
+        [data-theme="verde"] {
+            --bg-primary: #061712;
+            --bg-secondary: #0d2820;
+            --bg-card: #14382d;
+            --accent: #059669;
+            --accent-hover: #047857;
+            --text-main: #f0fdf4;
+            --text-muted: #6ee7b7;
+            --border-color: #1e4e3d;
+        }
+
+        /* ESTILOS GENERALES Y RESET */
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
         }
 
-        .sidebar-menu li a {
-            padding: 12px 20px;
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            color: #adb5bd;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border-left: 4px solid transparent;
+            flex-direction: column;
+            line-height: 1.5;
         }
 
-        .sidebar-menu li a:hover, .sidebar-menu li a.active {
-            background-color: #343a40;
-            color: #ffffff;
-            border-left-color: #0d6efd;
-        }
-
-        .sidebar-menu li a i {
-            width: 25px;
-            margin-right: 10px;
-            font-size: 16px;
-        }
-
-        /* BARRA SUPERIOR */
-        .navbar-top {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            padding: 12px 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1040;
+        /* HEADER Y NAVEGACIÓN RESPONSIVA */
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 2px solid var(--accent);
+            padding: 0.75rem 1rem;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
         }
 
-        .menu-toggle-btn {
-            background: none;
+        .brand-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .badge {
+            background: var(--accent);
+            color: #000;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        .btn-logout {
+            background: var(--danger);
+            color: white;
             border: none;
-            font-size: 1.5rem;
-            color: #212529;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 0.8rem;
         }
 
-        .main-content {
-            margin-top: 80px;
-            padding: 20px;
-            transition: all 0.3s ease;
+        /* MENÚ DE NAVEGACIÓN DESPLAZABLE */
+        nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            padding: 0.5rem;
+            gap: 0.5rem;
+            -webkit-overflow-scrolling: touch;
         }
 
-        @media (min-width: 992px) {
-            .sidebar { left: 0; }
-            .main-content { margin-left: 260px; }
-            .menu-toggle-btn { display: none; }
+        .nav-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
-        #pantalla-login, #pantalla-admin-login {
+        .nav-btn.active, .nav-btn:hover {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border-color: var(--accent);
+        }
+
+        /* CONTENEDOR PRINCIPAL DE MÓDULOS */
+        main {
+            flex: 1;
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .module {
+            display: none;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        /* COMPONENTES DE UI: CARDS, TABLAS Y FORMULARIOS */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.55rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .btn {
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* TABLAS RESPONSIVAS CON SCROLL HORIZONTAL */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        th, td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* MODAL PERSONALIZADO SIN ALERT/CONFIRM */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            display: flex;
-            justify-content: center;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
             align-items: center;
-            z-index: 99999;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
         }
 
-        /* ESTILOS PARA IMPRESIÓN LIMPIA */
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.2rem;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid var(--accent);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* PANTALLA DE LOGIN */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-primary);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .login-box {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent);
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .login-box h1 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-box p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* MENSAJES DE NOTIFICACIÓN */
+        #toast-container {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            background: var(--bg-card);
+            color: white;
+            border-left: 4px solid var(--accent);
+            box-shadow: var(--shadow);
+            font-size: 0.85rem;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        .toast.success { border-left-color: var(--success); }
+        .toast.danger { border-left-color: var(--danger); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ESTILOS DE IMPRESIÓN (FACTURA / ORDEN TECNICA) */
         @media print {
-            body * { visibility: hidden; }
-            #area-impresion, #area-impresion * { visibility: visible; }
-            #area-impresion {
+            body * {
+                visibility: hidden;
+            }
+            #printable-area, #printable-area * {
+                visibility: visible;
+            }
+            #printable-area {
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
-                margin: 0;
-                padding: 15px;
-                background: white;
+                color: #000 !important;
+                background: #fff !important;
+                padding: 10px;
+                font-family: monospace;
             }
-            .no-imprimir { display: none !important; }
+            .no-print {
+                display: none !important;
+            }
+            .ticket-header {
+                text-align: center;
+                border-bottom: 1px dashed #000;
+                padding-bottom: 8px;
+                margin-bottom: 8px;
+            }
+            .ticket-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 10px 0;
+            }
+            .ticket-table th, .ticket-table td {
+                color: #000 !important;
+                border: none !important;
+                padding: 2px 0;
+                font-size: 12px;
+            }
+            .ticket-footer {
+                text-align: center;
+                border-top: 1px dashed #000;
+                padding-top: 8px;
+                margin-top: 8px;
+                font-size: 11px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA DE LOGIN GENERAL -->
-    <div id="pantalla-login">
-        <div class="card shadow p-4 bg-white" style="width: 330px;">
-            <div class="text-center mb-4">
-                <i class="fas fa-motorcycle fa-3x text-primary mb-2"></i>
-                <h3 id="lbl-login-titulo">MEC-BIKERS</h3>
-                <p class="text-muted small">Control de Taller y Ventas</p>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Contraseña de Acceso</label>
-                <input type="password" id="input-pass" class="form-control" placeholder="****" value="1234">
-            </div>
-            <button type="button" class="btn btn-primary w-100" onclick="ingresarSistema()">Ingresar al Sistema</button>
-        </div>
-    </div>
-
-    <!-- PANTALLA DE LOGIN ADMINISTRATIVO -->
-    <div id="pantalla-admin-login" style="display: none;">
-        <div class="card shadow p-4 bg-white" style="width: 330px;">
-            <div class="text-center mb-3">
-                <i class="fas fa-shield-alt fa-2x text-danger mb-2"></i>
-                <h5>Área Restringida</h5>
-                <p class="text-muted small">Ingrese la contraseña de administración.</p>
-            </div>
-            <div class="mb-3">
-                <input type="password" id="input-admin-pass" class="form-control" placeholder="Clave Admin">
-            </div>
-            <div class="d-flex gap-2">
-                <button type="button" class="btn btn-secondary w-50 btn-sm" onclick="cancelarAdminLogin()">Cancelar</button>
-                <button type="button" class="btn btn-danger w-50 btn-sm" onclick="verificarAdminPass()">Acceder</button>
+    <div id="login-screen">
+        <div class="login-box">
+            <h1>MEC BIKERS</h1>
+            <p>Sistema de Gestión de Moto Servicio</p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <select id="login-user">
+                        <option value="admin">Administrador</option>
+                        <option value="tecnico">Técnico Mecánico</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="login-pass" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn" style="margin-top:0.5rem;">Iniciar Sesión</button>
+            </form>
+            <div style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted);">
+                Claves demo: Admin: <b>admin123</b> | Técnico: <b>tec123</b>
             </div>
         </div>
     </div>
 
-    <!-- PANTALLA PRINCIPAL DE LA APP -->
-    <div id="pantalla-app" style="display: none;">
-        
-        <!-- BARRA SUPERIOR -->
-        <header class="navbar-top">
-            <div class="d-flex align-items-center gap-3">
-                <button class="menu-toggle-btn" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h5 class="m-0 fw-bold text-primary" id="lbl-nav-titulo">MEC-BIKERS Taller</h5>
-            </div>
-            <span class="text-muted small" id="lbl-estado-conexion">Sistema Activo</span>
-        </header>
+    <!-- HEADER PRINCIPAL -->
+    <header id="main-header" style="display:none;">
+        <div class="brand-title">
+            ⚙️ MEC BIKERS
+        </div>
+        <div class="user-info">
+            <span id="user-display">Usuario</span>
+            <span id="role-badge" class="badge">ROL</span>
+            <button class="btn-logout" onclick="logout()">Salir</button>
+        </div>
+    </header>
 
-        <!-- MENÚ LATERAL -->
-        <nav class="sidebar" id="sidebar-menu">
-            <div class="sidebar-header">
-                <span><i class="fas fa-motorcycle me-2"></i><span id="lbl-sidebar-titulo">MEC-BIKERS</span></span>
-                <button class="btn text-white d-lg-none" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="#" class="active" onclick="cambiarSeccion('dashboard', this)"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="#" onclick="cambiarSeccion('motos', this)"><i class="fas fa-tools"></i> Taller / Motos</a></li>
-                <li><a href="#" onclick="cambiarSeccion('pos', this)"><i class="fas fa-cash-register"></i> Caja / POS</a></li>
-                <li><a href="#" onclick="cambiarSeccion('inventario', this)"><i class="fas fa-boxes"></i> Inventario</a></li>
-                <li><a href="#" onclick="cambiarSeccion('citas', this)"><i class="fas fa-calendar-alt"></i> Citas</a></li>
-                <li><a href="#" onclick="cambiarSeccion('ventas', this)"><i class="fas fa-file-invoice-dollar"></i> Historial / Facturas</a></li>
-                <li><a href="#" onclick="cambiarSeccion('reportes', this)"><i class="fas fa-print"></i> Reportes e Impresión</a></li>
-                <li><a href="#" onclick="validarAccesoAdmin(this)"><i class="fas fa-shield-alt"></i> Admin</a></li>
-                <li><a href="#" onclick="cambiarSeccion('ajustes', this)"><i class="fas fa-cogs"></i> Ajustes</a></li>
-                <li><a href="#" class="text-danger" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
-            </ul>
-        </nav>
+    <nav id="main-nav" style="display:none;">
+        <button class="nav-btn active" onclick="switchModule('pos')">🛒 POS / Venta</button>
+        <button class="nav-btn" onclick="switchModule('inventario')">📦 Inventario</button>
+        <button class="nav-btn" onclick="switchModule('ventas')">📄 Ventas</button>
+        <button class="nav-btn" onclick="switchModule('ordenes')">🛠️ Órdenes Taller</button>
+        <button class="nav-btn" onclick="switchModule('historial-ordenes')">📋 Historial OT</button>
+        <button class="nav-btn" id="nav-contabilidad" onclick="switchModule('contabilidad')">📊 Contabilidad</button>
+        <button class="nav-btn" onclick="switchModule('config-factura')">⚙️ Config. Factura</button>
+        <button class="nav-btn" onclick="switchModule('config-sistema')">🔧 Sistema / Temas</button>
+    </nav>
 
-        <!-- CONTENIDO PRINCIPAL -->
-        <main class="main-content">
-            
-            <!-- SECCIÓN DASHBOARD -->
-            <div id="sec-dashboard" class="seccion-app" style="display: block;">
-                <h2 class="mb-4">Dashboard General</h2>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="card bg-primary text-white p-3 shadow-sm">
-                            <h6>Ventas Realizadas Hoy</h6>
-                            <h3 id="lbl-num-ventas">0</h3>
+    <!-- CONTENIDO DE MÓDULOS -->
+    <main id="main-content" style="display:none;">
+
+        <!-- 1. MÓDULO POS / VENTA DE REPUESTOS -->
+        <section id="mod-pos" class="module active">
+            <div class="grid">
+                <!-- Formulario Venta y Productos -->
+                <div style="grid-column: span 2;">
+                    <div class="card">
+                        <div class="card-title">Selección de Repuestos</div>
+                        <div class="form-group">
+                            <input type="text" id="pos-search" placeholder="🔍 Buscar por código o nombre de repuesto..." oninput="renderPosCatalog()">
+                        </div>
+                        <div class="table-responsive" style="max-height: 220px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Stock</th>
+                                        <th>Precio</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pos-catalog-body"></tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card bg-warning text-dark p-3 shadow-sm">
-                            <h6>Motos en Taller</h6>
-                            <h3 id="lbl-motos-activas">0</h3>
+
+                    <!-- Carrito de Compras -->
+                    <div class="card">
+                        <div class="card-title">
+                            <span>Carrito de Ventas</span>
+                            <button class="btn btn-danger" style="width:auto; padding:0.2rem 0.6rem; font-size:0.75rem;" onclick="clearCart()">Vaciar Carrito</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Repuesto</th>
+                                        <th>Cant.</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-body"></tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card bg-success text-white p-3 shadow-sm">
-                            <h6>Estado del Sistema</h6>
-                            <h3 class="small mt-2">Sincronizado Sheets/Nube</h3>
+                </div>
+
+                <!-- Detalle y Pago -->
+                <div>
+                    <div class="card">
+                        <div class="card-title">Datos del Cliente</div>
+                        <div class="form-group">
+                            <label>Nombre del Cliente</label>
+                            <input type="text" id="pos-client-name" placeholder="Consumidor Final">
+                        </div>
+                        <div class="form-group">
+                            <label>RTN / DNI / ID</label>
+                            <input type="text" id="pos-client-id" placeholder="0000000000000">
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Resumen de Cuenta</div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                            <span>Subtotal:</span>
+                            <span id="pos-subtotal">0.00</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                            <span id="pos-tax-label">ISV (15%):</span>
+                            <span id="pos-tax">0.00</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; color:var(--accent); border-top:1px solid var(--border-color); padding-top:0.5rem; margin-bottom:1rem;">
+                            <span>Total a Pagar:</span>
+                            <span id="pos-total">0.00</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Efectivo Recibido</label>
+                            <input type="number" id="pos-pay-amount" placeholder="0.00" oninput="calcChange()">
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:1rem; font-weight:bold;">
+                            <span>Cambio:</span>
+                            <span id="pos-change" style="color:var(--success);">0.00</span>
+                        </div>
+
+                        <div class="btn-group" style="flex-direction: column;">
+                            <button class="btn btn-success" onclick="processSale(false)">💾 Procesar Venta / Facturar</button>
+                            <button class="btn btn-secondary" onclick="processSale(true)">📄 Generar Cotización</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- SECCIÓN TALLER / MOTOS -->
-            <div id="sec-motos" class="seccion-app">
-                <h2 class="mb-4">Recepción y Órdenes de Taller</h2>
-                <div class="row">
-                    <div class="col-lg-4 mb-4">
-                        <div class="card shadow-sm p-3">
-                            <h5>Nueva Orden de Trabajo</h5>
-                            <div class="mb-2"><input type="text" id="moto-cliente" class="form-control form-control-sm" placeholder="Nombre del Cliente"></div>
-                            <div class="row mb-2">
-                                <div class="col"><input type="text" id="moto-telefono" class="form-control form-control-sm" placeholder="Teléfono"></div>
-                                <div class="col"><input type="text" id="moto-placa" class="form-control form-control-sm" placeholder="Placa"></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col"><input type="text" id="moto-modelo" class="form-control form-control-sm" placeholder="Modelo de Moto"></div>
-                                <div class="col"><input type="text" id="moto-km-actual" class="form-control form-control-sm" placeholder="Kilometraje"></div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label small text-muted mb-1">Estado de la Revisión:</label>
-                                <select id="moto-estado" class="form-select form-select-sm">
-                                    <option value="Pendiente de revisión">Pendiente de revisión</option>
-                                    <option value="En Diagnóstico">En Diagnóstico</option>
-                                    <option value="En Reparación">En Reparación</option>
-                                    <option value="Lista para Entrega">Lista para Entrega</option>
-                                </select>
-                            </div>
-                            <div class="mb-2"><textarea id="moto-falla" class="form-control form-control-sm" rows="2" placeholder="Falla reportada o trabajos iniciales"></textarea></div>
-                            <div class="mb-2">
-                                <label class="form-label small fw-bold text-dark mb-1">Costo de Mano de Obra (L):</label>
-                                <input type="number" id="moto-mano-obra" class="form-control form-control-sm" placeholder="0.00" value="0">
-                            </div>
-                            <button class="btn btn-primary w-100 btn-sm" onclick="guardarOrdenMoto()">Registrar Orden</button>
-                        </div>
+        <section id="mod-inventario" class="module">
+            <div class="card">
+                <div class="card-title">
+                    <span>Gestión de Inventario de Repuestos</span>
+                    <button class="btn btn-secondary" style="width:auto; padding:0.3rem 0.8rem;" onclick="openInventoryReport()">🖨️ Reporte Imprimible</button>
+                </div>
+               
+                <!-- Formulario de Producto -->
+                <form id="product-form" onsubmit="saveProduct(event)" class="grid" style="margin-bottom:1rem;">
+                    <input type="hidden" id="prod-id">
+                    <div class="form-group">
+                        <label>Código Repuesto</label>
+                        <input type="text" id="prod-code" required placeholder="REP-001">
                     </div>
-                    <div class="col-lg-8">
-                        <div class="card shadow-sm p-3">
-                            <h5>Motos Activas en Taller</h5>
-                            <div class="table-responsive mt-2">
-                                <table class="table table-sm align-middle">
-                                    <thead>
-                                        <tr>
-                                            <th>Cliente / Moto</th>
-                                            <th>Estado (Editable)</th>
-                                            <th>Mano de Obra</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tabla-motos-body">
-                                        <tr><td colspan="4" class="text-center text-muted">No hay órdenes registradas.</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label>Descripción / Nombre</label>
+                        <input type="text" id="prod-name" required placeholder="Filtro de Aceite Honda">
                     </div>
+                    <div class="form-group">
+                        <label>Costo de Compra</label>
+                        <input type="number" step="0.01" id="prod-cost" required placeholder="0.00" oninput="calcMargin()">
+                    </div>
+                    <div class="form-group">
+                        <label>Precio Venta</label>
+                        <input type="number" step="0.01" id="prod-price" required placeholder="0.00" oninput="calcMargin()">
+                    </div>
+                    <div class="form-group">
+                        <label>Margen Ganancia (%)</label>
+                        <input type="text" id="prod-margin" readonly placeholder="0%" style="background:var(--bg-card);">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Actual</label>
+                        <input type="number" id="prod-stock" required placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Mínimo Alerta Stock</label>
+                        <input type="number" id="prod-min-stock" value="3">
+                    </div>
+                    <div class="form-group" style="grid-column: span 1; display:flex; align-items:flex-end;">
+                        <button type="submit" class="btn" id="prod-btn-save">Guardar Producto</button>
+                    </div>
+                </form>
+
+                <!-- Filtros -->
+                <div class="grid" style="margin-bottom:1rem; grid-template-columns: 2fr 1fr 1fr;">
+                    <input type="text" id="inv-search" placeholder="🔍 Filtrar repuestos..." oninput="renderInventory()">
+                    <select id="inv-sort" onchange="renderInventory()">
+                        <option value="name">Ordenar por Nombre</option>
+                        <option value="code">Ordenar por Código</option>
+                        <option value="stock">Ordenar por Stock</option>
+                    </select>
+                    <select id="inv-filter-stock" onchange="renderInventory()">
+                        <option value="all">Todos los Productos</option>
+                        <option value="low">Solo Bajo Stock ⚠️</option>
+                    </select>
+                </div>
+
+                <!-- Tabla de Productos -->
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Costo</th>
+                                <th>Precio Venta</th>
+                                <th>Ganancia</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-body"></tbody>
+                    </table>
                 </div>
             </div>
+        </section>
 
-            <!-- SECCIÓN POS / CAJA -->
-            <div id="sec-pos" class="seccion-app">
-                <h2 class="mb-4">Punto de Venta (POS) / Caja</h2>
-                <div class="row">
-                    <div class="col-lg-7 mb-4">
-                        <div class="card shadow-sm p-3">
-                            <h5>Inventario Disponible para Venta</h5>
-                            <div class="table-responsive mt-2" style="max-height: 400px; overflow-y: auto;">
-                                <table class="table table-sm align-middle">
-                                    <thead>
-                                        <tr>
-                                            <th>Repuesto</th>
-                                            <th>Stock</th>
-                                            <th>Precio</th>
-                                            <th>Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tabla-pos-inventario">
-                                        <tr><td colspan="4" class="text-center text-muted">Cargando inventario...</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="card shadow-sm p-3">
-                            <h5>Ticket de Venta</h5>
-                            <ul class="list-group my-3" id="lista-carrito" style="max-height: 200px; overflow-y: auto;">
-                                <li class="list-group-item text-muted text-center small">Carrito vacío</li>
-                            </ul>
-                            <div class="d-flex justify-content-between mb-3">
-                                <h5>Total:</h5>
-                                <h5 class="text-success" id="lbl-total-venta">L 0.00</h5>
-                            </div>
-                            <button class="btn btn-success w-100 btn-sm" onclick="procesarVenta()"><i class="fas fa-check-circle me-1"></i> Cobrar y Registrar Venta</button>
-                        </div>
-                    </div>
+        <section id="mod-ventas" class="module">
+            <div class="card">
+                <div class="card-title">Historial de Ventas y Cotizaciones</div>
+                <div class="form-group">
+                    <input type="text" id="sales-search" placeholder="🔍 Buscar por folio, cliente o fecha..." oninput="renderSalesHistory()">
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Tipo</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Acciones (Doble clic detalle)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-history-body"></tbody>
+                    </table>
                 </div>
             </div>
+        </section>
 
-            <!-- SECCIÓN INVENTARIO -->
-            <div id="sec-inventario" class="seccion-app">
-                <h2 class="mb-4">Control de Inventario</h2>
-                <div class="card shadow-sm p-3 mb-4">
-                    <h5>Nuevo Repuesto / Producto</h5>
-                    <div class="row g-2">
-                        <div class="col-md-3"><input type="text" id="inv-nombre" class="form-control form-control-sm" placeholder="Nombre del repuesto"></div>
-                        <div class="col-md-2"><input type="number" id="inv-stock" class="form-control form-control-sm" placeholder="Stock" value="5"></div>
-                        <div class="col-md-2"><input type="number" id="inv-costo" class="form-control form-control-sm" placeholder="Costo" oninput="calcularPrecioDesdeCosto()"></div>
-                        <div class="col-md-2"><input type="number" id="inv-margen" class="form-control form-control-sm" placeholder="% Ganancia" value="30" oninput="calcularPrecioDesdeCosto()"></div>
-                        <div class="col-md-3"><input type="number" id="inv-precio" class="form-control form-control-sm" placeholder="Precio Venta"></div>
+        <section id="mod-ordenes" class="module">
+            <div class="card">
+                <div class="card-title">Registrar Nueva Órden de Trabajo (OT)</div>
+                <form id="order-form" onsubmit="saveOrder(event)" class="grid">
+                    <input type="hidden" id="ord-id">
+                   
+                    <!-- Datos Cliente y Moto -->
+                    <div class="form-group">
+                        <label>Nombre del Cliente</label>
+                        <input type="text" id="ord-client" required placeholder="Carlos Mendoza">
                     </div>
-                    <div class="mt-2 text-end">
-                        <button class="btn btn-primary btn-sm px-4" onclick="guardarRepuesto()">Guardar en Inventario</button>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" id="ord-phone" placeholder="9999-9999">
                     </div>
-                </div>
-                <div class="card shadow-sm p-3">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Artículo</th>
-                                    <th>Stock</th>
-                                    <th>Costo</th>
-                                    <th>Precio</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-inventario-body">
-                                <tr><td colspan="5" class="text-center text-muted">Sin repuestos registrados.</td></tr>
-                            </tbody>
-                        </table>
+                    <div class="form-group">
+                        <label>Modelo de Moto</label>
+                        <input type="text" id="ord-moto-model" required placeholder="Yamaha FZ 25">
                     </div>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label>Placa</label>
+                        <input type="text" id="ord-moto-plate" placeholder="M-123456">
+                    </div>
+                    <div class="form-group">
+                        <label>Chasis / VIN</label>
+                        <input type="text" id="ord-moto-vin" placeholder="384729384792">
+                    </div>
+                    <div class="form-group">
+                        <label>Color</label>
+                        <input type="text" id="ord-moto-color" placeholder="Negro / Rojo">
+                    </div>
 
-            <!-- SECCIÓN CITAS -->
-            <div id="sec-citas" class="seccion-app">
-                <h2 class="mb-4">Agenda de Citas</h2>
-                <div class="row">
-                    <div class="col-lg-4 mb-4">
-                        <div class="card shadow-sm p-3">
-                            <h5>Nueva Cita</h5>
-                            <div class="mb-2"><input type="text" id="cita-cliente" class="form-control form-control-sm" placeholder="Cliente"></div>
-                            <div class="mb-2"><input type="date" id="cita-fecha" class="form-control form-control-sm"></div>
-                            <div class="mb-2"><input type="text" id="cita-servicio" class="form-control form-control-sm" placeholder="Servicio a realizar"></div>
-                            <button class="btn btn-primary w-100 btn-sm" onclick="guardarCita()">Agendar Cita</button>
-                        </div>
+                    <!-- Diagnóstico Técnico -->
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Reporte de Falla (Cliente)</label>
+                        <textarea id="ord-fault" rows="2" required placeholder="Ruido en el motor y freno trasero suave..."></textarea>
                     </div>
-                    <div class="col-lg-8">
-                        <div class="card shadow-sm p-3">
-                            <h5>Citas Programadas</h5>
-                            <div class="table-responsive mt-2">
-                                <table class="table table-sm align-middle">
-                                    <thead>
-                                        <tr>
-                                            <th>Cliente</th>
-                                            <th>Fecha</th>
-                                            <th>Servicio</th>
-                                            <th>Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tabla-citas-body">
-                                        <tr><td colspan="4" class="text-center text-muted">No hay citas registradas.</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Diagnóstico Técnico Dinámico</label>
+                        <textarea id="ord-diag" rows="2" placeholder="Requiere cambio de pastillas y ajuste de válvulas..."></textarea>
                     </div>
-                </div>
-            </div>
 
-            <!-- SECCIÓN VENTAS -->
-            <div id="sec-ventas" class="seccion-app">
-                <h2 class="mb-4">Historial de Ventas / Facturas</h2>
-                <div class="card shadow-sm p-3">
-                    <div class="table-responsive">
-                        <table class="table table-sm align-middle">
-                            <thead>
-                                <tr>
-                                    <th>ID Venta</th>
-                                    <th>Fecha / Hora</th>
-                                    <th>Total</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-ventas-body">
-                                <tr><td colspan="4" class="text-center text-muted">No hay ventas registradas.</td></tr>
-                            </tbody>
-                        </table>
+                    <!-- Costos -->
+                    <div class="form-group">
+                        <label>Costo Mano de Obra</label>
+                        <input type="number" step="0.01" id="ord-labor" value="0.00" oninput="calcOrderTotals()">
                     </div>
-                </div>
-            </div>
-
-            <!-- SECCIÓN REPORTES -->
-            <div id="sec-reportes" class="seccion-app">
-                <h2 class="mb-4">Reportes e Impresión</h2>
-                <div class="card shadow-sm p-3">
-                    <p class="text-muted">Seleccione una orden o factura para generar una vista de impresión limpia.</p>
-                    <div id="area-impresion" class="border p-4 bg-light">
-                        <h4>MEC-BIKERS Taller de Motos</h4>
-                        <p class="mb-1">Comprobante de Servicio / Factura</p>
-                        <hr>
-                        <div id="contenido-impresion">
-                            <p class="text-muted">Ningún documento seleccionado para imprimir.</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-secondary mt-3 no-imprimir" onclick="window.print()"><i class="fas fa-print"></i> Imprimir Documento</button>
-                </div>
-            </div>
-
-            <!-- SECCIÓN ADMIN -->
-            <div id="sec-admin" class="seccion-app">
-                <h2 class="mb-4">Panel de Administración</h2>
-                <div class="card shadow-sm p-3">
-                    <p>Opciones avanzadas y restablecimiento de datos del sistema.</p>
-                    <button class="btn btn-danger btn-sm w-25" onclick="limpiarBaseDatos()">Borrar Todo y Reiniciar Datos</button>
-                </div>
-            </div>
-
-            <!-- SECCIÓN AJUSTES -->
-            <div id="sec-ajustes" class="seccion-app">
-                <h2 class="mb-4">Ajustes del Sistema</h2>
-                <div class="card shadow-sm p-3">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre del Taller</label>
-                        <input type="text" id="ajuste-nombre" class="form-control form-control-sm" value="MEC-BIKERS">
-                    </div>
-                    <button class="btn btn-primary btn-sm" onclick="guardarAjustes()">Guardar Cambios</button>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <!-- MODAL EDITAR ORDEN (CLIENTE Y VEHÍCULO) -->
-    <div class="modal fade" id="modalEditarOrden" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar Orden de Trabajo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="edit-index">
-                    <div class="mb-2">
-                        <label class="form-label small">Nombre del Cliente</label>
-                        <input type="text" id="edit-cliente" class="form-control form-control-sm">
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <label class="form-label small">Teléfono</label>
-                            <input type="text" id="edit-telefono" class="form-control form-control-sm">
-                        </div>
-                        <div class="col">
-                            <label class="form-label small">Placa</label>
-                            <input type="text" id="edit-placa" class="form-control form-control-sm">
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <label class="form-label small">Modelo de Moto</label>
-                            <input type="text" id="edit-modelo" class="form-control form-control-sm">
-                        </div>
-                        <div class="col">
-                            <label class="form-label small">Kilometraje</label>
-                            <input type="text" id="edit-kilometraje" class="form-control form-control-sm">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label small">Estado de la Revisión</label>
-                        <select id="edit-estado" class="form-select form-select-sm">
-                            <option value="Pendiente de revisión">Pendiente de revisión</option>
+                    <div class="form-group">
+                        <label>Estado de la Orden</label>
+                        <select id="ord-status">
+                            <option value="Recibida">Recibida</option>
                             <option value="En Diagnóstico">En Diagnóstico</option>
-                            <option value="En Reparación">En Reparación</option>
-                            <option value="Lista para Entrega">Lista para Entrega</option>
+                            <option value="En Proceso">En Proceso</option>
+                            <option value="Listo para Entregar">Listo para Entregar</option>
                         </select>
                     </div>
-                    <div class="mb-2">
-                        <label class="form-label small">Falla / Trabajos</label>
-                        <textarea id="edit-falla" class="form-control form-control-sm" rows="2"></textarea>
+
+                    <!-- Selección de Repuestos para la Orden -->
+                    <div style="grid-column: 1 / -1; background: var(--bg-primary); padding: 0.8rem; border-radius:6px; border:1px solid var(--border-color);">
+                        <label style="font-weight:bold; color:var(--accent);">Añadir Repuesto del Inventario a la Orden</label>
+                        <div class="grid" style="grid-template-columns: 2fr 1fr 1fr; margin-top:0.5rem;">
+                            <select id="ord-select-part">
+                                <option value="">-- Seleccionar Repuesto --</option>
+                            </select>
+                            <input type="number" id="ord-part-qty" value="1" min="1" placeholder="Cant">
+                            <button type="button" class="btn btn-secondary" onclick="addPartToOrder()">+ Agregar Repuesto</button>
+                        </div>
+
+                        <!-- Repuestos Suministrados por Cliente -->
+                        <div class="grid" style="grid-template-columns: 2fr 1fr 1fr; margin-top:0.5rem;">
+                            <input type="text" id="ord-cust-part" placeholder="Repuesto Traído por Cliente (Costo 0.00)">
+                            <input type="number" id="ord-cust-part-qty" value="1" min="1" placeholder="Cant">
+                            <button type="button" class="btn btn-secondary" onclick="addCustomerPartToOrder()">+ Agregar del Cliente</button>
+                        </div>
+
+                        <!-- Lista Repuestos Agregados OT -->
+                        <div class="table-responsive" style="margin-top:0.8rem;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Repuesto</th>
+                                        <th>Origen</th>
+                                        <th>Cant</th>
+                                        <th>Precio Un.</th>
+                                        <th>Subtotal</th>
+                                        <th>Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ord-parts-body"></tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        <label class="form-label small">Costo de Mano de Obra (L)</label>
-                        <input type="number" id="edit-mano-obra" class="form-control form-control-sm">
+
+                    <div style="grid-column: 1 / -1; text-align:right; font-weight:bold; font-size:1.1rem;">
+                        Total Estimado OT: <span id="ord-total-display" style="color:var(--accent);">0.00</span>
+                    </div>
+
+                    <div style="grid-column: 1 / -1;">
+                        <button type="submit" class="btn">Guardar Orden de Trabajo</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="mod-historial-ordenes" class="module">
+            <div class="card">
+                <div class="card-title">Historial General de Órdenes de Trabajo</div>
+                <div class="form-group">
+                    <input type="text" id="orders-search" placeholder="🔍 Buscar por Folio, Cliente, Placa o Modelo..." oninput="renderOrdersHistory()">
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N° OT</th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Moto / Placa</th>
+                                <th>Estado</th>
+                                <th>M. Obra</th>
+                                <th>Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-history-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="mod-contabilidad" class="module">
+            <div class="card">
+                <div class="card-title">Módulo Contable y Financiero (Exclusivo Admin)</div>
+                <div class="grid" style="margin-bottom:1rem;">
+                    <div class="card" style="background:var(--bg-primary); text-align:center;">
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Venta Bruta Repuestos</div>
+                        <div id="acc-parts-rev" style="font-size:1.3rem; font-weight:bold; color:var(--info);">0.00</div>
+                    </div>
+                    <div class="card" style="background:var(--bg-primary); text-align:center;">
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Ganancia Bruta Repuestos</div>
+                        <div id="acc-parts-profit" style="font-size:1.3rem; font-weight:bold; color:var(--success);">0.00</div>
+                    </div>
+                    <div class="card" style="background:var(--bg-primary); text-align:center;">
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Ingresos Mano de Obra</div>
+                        <div id="acc-labor-rev" style="font-size:1.3rem; font-weight:bold; color:var(--accent);">0.00</div>
+                    </div>
+                    <div class="card" style="background:var(--bg-primary); text-align:center;">
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Impuestos Recaudados (ISV)</div>
+                        <div id="acc-tax-rev" style="font-size:1.3rem; font-weight:bold; color:var(--warning);">0.00</div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="guardarEdicionOrden()">Guardar Cambios en Nube y Local</button>
+
+                <div class="card" style="background:var(--bg-card); border:2px solid var(--accent); text-align:center;">
+                    <div style="font-size:1rem; color:var(--text-main);">GANANCIA NETA TOTAL ACUMULADA</div>
+                    <div id="acc-total-net-profit" style="font-size:2rem; font-weight:bold; color:var(--success); margin-top:0.3rem;">0.00</div>
+                    <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem;">Calculada: (Ganancia Bruta Repuestos + Ingresos Mano de Obra)</p>
                 </div>
+            </div>
+        </section>
+
+        <section id="mod-config-factura" class="module">
+            <div class="card">
+                <div class="card-title">Configuración de Encabezado y Pie de Factura</div>
+                <form id="config-invoice-form" onsubmit="saveInvoiceConfig(event)" class="grid">
+                    <div class="form-group">
+                        <label>Nombre del Taller</label>
+                        <input type="text" id="cfg-company-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono / WhatsApp</label>
+                        <input type="text" id="cfg-phone" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Dirección del Taller</label>
+                        <input type="text" id="cfg-address" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Porcentaje ISV (%)</label>
+                        <input type="number" step="0.1" id="cfg-tax-rate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Aplicar ISV por Defecto</label>
+                        <select id="cfg-tax-active">
+                            <option value="true">Sí (Activo)</option>
+                            <option value="false">No (Exento)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Mensaje Pie de Página Ticket</label>
+                        <textarea id="cfg-footer" rows="2"></textarea>
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <button type="submit" class="btn">Guardar Configuración Factura</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="mod-config-sistema" class="module">
+            <div class="card">
+                <div class="card-title">Configuración de Sistema, Temas y Seguridad</div>
+               
+                <div class="grid">
+                    <!-- Tema Visual -->
+                    <div>
+                        <h4 style="color:var(--accent); margin-bottom:0.5rem;">Personalización Visual</h4>
+                        <div class="form-group">
+                            <label>Seleccionar Tema Visual</label>
+                            <select id="cfg-theme-select" onchange="changeTheme(this.value)">
+                                <option value="default">MEC BIKERS Dark (Predeterminado)</option>
+                                <option value="rojo">Rojo Taller Pasión</option>
+                                <option value="azul">Azul Clásico Mecánico</option>
+                                <option value="verde">Verde Industrial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Símbolo de Moneda</label>
+                            <input type="text" id="cfg-currency" value="L." onchange="saveCurrency(this.value)">
+                        </div>
+                    </div>
+
+                    <!-- Cambiar Contraseñas -->
+                    <div>
+                        <h4 style="color:var(--accent); margin-bottom:0.5rem;">Cambiar Contraseña</h4>
+                        <form onsubmit="changePassword(event)">
+                            <div class="form-group">
+                                <label>Usuario a Modificar</label>
+                                <select id="pass-user-target">
+                                    <option value="admin">Administrador</option>
+                                    <option value="tecnico">Técnico</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Contraseña Actual</label>
+                                <input type="password" id="pass-current" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nueva Contraseña</label>
+                                <input type="password" id="pass-new" required>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Actualizar Contraseña</button>
+                        </form>
+                    </div>
+                </div>
+
+                <hr style="border-color:var(--border-color); margin: 1.5rem 0;">
+
+                <!-- Copia de Seguridad JSON -->
+                <div class="grid">
+                    <div>
+                        <h4 style="color:var(--accent); margin-bottom:0.5rem;">Respaldo de Datos (Backup JSON)</h4>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.8rem;">Guarda una copia completa de tu inventario, ventas y órdenes localmente en un archivo .json.</p>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary" onclick="exportBackup()">📥 Descargar Backup JSON</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color:var(--accent); margin-bottom:0.5rem;">Restaurar Datos</h4>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.8rem;">Carga un archivo de respaldo previamente guardado.</p>
+                        <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importBackup(event)">
+                        <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">📤 Importar Backup JSON</button>
+                    </div>
+                </div>
+
+                <hr style="border-color:var(--border-color); margin: 1.5rem 0;">
+
+                <div>
+                    <h4 style="color:var(--danger); margin-bottom:0.5rem;">Restablecimiento del Sistema</h4>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.8rem;">Borra todos los datos del inventario, historial de ventas y órdenes para iniciar desde cero.</p>
+                    <button class="btn btn-danger" style="max-width:250px;" onclick="confirmResetApp()">⚠️ Restablecer Todo de Fábrica</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE VISTA PREVIA E IMPRESIÓN (SIN ALERT/CONFIRM) -->
+    <div id="modal-container" class="modal-overlay">
+        <div class="modal-content">
+            <div class="card-title">
+                <span id="modal-title">Detalle de Documento</span>
+                <button class="btn-logout" onclick="closeModal()">X</button>
+            </div>
+            <div id="modal-body"></div>
+            <div class="btn-group" style="margin-top:1rem;" id="modal-actions">
+                <button class="btn" onclick="printModalContent()">🖨️️ Imprimir Ticket / Documento</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AREA OCULTA EXCLUSIVA PARA IMPRESIÓN DIRECTA -->
+    <div id="printable-area"></div>
 
-    <!-- SCRIPT DE FUNCIONAMIENTO -->
+    <!-- TOAST DE NOTIFICACIONES -->
+    <div id="toast-container"></div>
+
     <script>
-        let carrito = [];
-        const urlGoogleScript = "https://script.google.com/macros/s/AKfycbyHk8AGsmSkpRlCgFPPI9itHsdRfe0hK97iZLpPPv4ta5eUo4NxW5KLdWkCpTvcaZoi/exec";
+        /* BASE DE DATOS LOCAL Y VALORES PREDETERMINADOS */
+        const DEFAULT_DATA = {
+            config: {
+                companyName: "Moto Servicio MEC BIKERS",
+                phone: "+(504) 9876-5432",
+                address: "Av. Principal, Frente a Gasolinera, Tegucigalpa",
+                taxRate: 15,
+                taxActive: true,
+                footerMsg: "¡Gracias por confiar en MEC BIKERS! Garantía de 15 días en mano de obra.",
+                currency: "L.",
+                theme: "default"
+            },
+            users: {
+                admin: { pass: "admin123", role: "Administrador", name: "Administrador" },
+                tecnico: { pass: "tec123", role: "Técnico", name: "Mecánico Principal" }
+            },
+            inventory: [
+                { id: 1, code: "REP-001", name: "Aceite 10W40 4T Semi-Sintético", cost: 120.00, price: 180.00, stock: 15, minStock: 3 },
+                { id: 2, code: "REP-002", name: "Bujía CG125 / FZ16", cost: 35.00, price: 65.00, stock: 2, minStock: 5 },
+                { id: 3, code: "REP-003", name: "Pastillas de Freno Delanteras", cost: 90.00, price: 150.00, stock: 8, minStock: 3 },
+                { id: 4, code: "REP-004", name: "Cadena 428H Reinforced", cost: 210.00, price: 320.00, stock: 4, minStock: 2 }
+            ],
+            sales: [],
+            orders: []
+        };
 
-        function ingresarSistema() {
-            const pass = document.getElementById('input-pass').value;
-            if(pass === "1234") {
-                document.getElementById('pantalla-login').style.display = 'none';
-                document.getElementById('pantalla-app').style.display = 'block';
-                cargarDatosLocales();
-            } else {
-                alert("Contraseña incorrecta (Prueba con 1234)");
-            }
+        // Estado Global de la App
+        let db = JSON.parse(localStorage.getItem('MEC_BIKERS_DB')) || DEFAULT_DATA;
+        let currentUser = null;
+        let cart = [];
+        let tempOrderParts = [];
+
+        // Guardar cambios en LocalStorage
+        function saveData() {
+            localStorage.setItem('MEC_BIKERS_DB', JSON.stringify(db));
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar-menu').classList.toggle('active');
+        /* INICIALIZACIÓN AL CARGAR LA PÁGINA */
+        window.onload = function() {
+            applyTheme(db.config.theme || 'default');
+            initLogin();
+        };
+
+        function initLogin() {
+            document.getElementById('login-form').onsubmit = function(e) {
+                e.preventDefault();
+                const u = document.getElementById('login-user').value;
+                const p = document.getElementById('login-pass').value;
+
+                if (db.users[u] && db.users[u].pass === p) {
+                    currentUser = { username: u, ...db.users[u] };
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('main-header').style.display = 'flex';
+                    document.getElementById('main-nav').style.display = 'flex';
+                    document.getElementById('main-content').style.display = 'block';
+
+                    document.getElementById('user-display').textContent = currentUser.name;
+                    document.getElementById('role-badge').textContent = currentUser.role;
+
+                    // Restringir módulo de contabilidad si no es admin
+                    const contabilidadBtn = document.getElementById('nav-contabilidad');
+                    if (currentUser.role !== 'Administrador') {
+                        contabilidadBtn.style.display = 'none';
+                    } else {
+                        contabilidadBtn.style.display = 'inline-flex';
+                    }
+
+                    showToast(`Bienvenido al sistema, ${currentUser.name}`, 'success');
+                    loadConfigForms();
+                    renderPosCatalog();
+                    renderInventory();
+                    renderSalesHistory();
+                    renderOrdersHistory();
+                    updateOrderPartsSelect();
+                } else {
+                    showToast('Contraseña incorrecta. Intente nuevamente.', 'danger');
+                }
+            };
         }
 
-        function cambiarSeccion(seccionId, elemento) {
-            document.querySelectorAll('.seccion-app').forEach(sec => sec.style.display = 'none');
-            document.getElementById('sec-' + seccionId).style.display = 'block';
-            
-            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-            if(elemento) elemento.classList.add('active');
-
-            if(window.innerWidth < 992) {
-                document.getElementById('sidebar-menu').classList.remove('active');
-            }
+        function logout() {
+            currentUser = null;
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('main-header').style.display = 'none';
+            document.getElementById('main-nav').style.display = 'none';
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('login-pass').value = '';
+            showToast('Sesión cerrada correctamente.', 'success');
         }
 
-        function cerrarSesion() {
-            document.getElementById('pantalla-app').style.display = 'none';
-            document.getElementById('pantalla-login').style.display = 'flex';
-            document.getElementById('input-pass').value = '';
-        }
-
-        function validarAccesoAdmin(elemento) {
-            document.getElementById('pantalla-admin-login').style.display = 'flex';
-        }
-
-        function cancelarAdminLogin() {
-            document.getElementById('pantalla-admin-login').style.display = 'none';
-            document.getElementById('input-admin-pass').value = '';
-        }
-
-        function verificarAdminPass() {
-            const adminPass = document.getElementById('input-admin-pass').value;
-            if(adminPass === "admin") {
-                document.getElementById('pantalla-admin-login').style.display = 'none';
-                document.getElementById('input-admin-pass').value = '';
-                cambiarSeccion('admin', null);
-            } else {
-                alert("Clave de administrador incorrecta");
-            }
-        }
-
-        function guardarRepuesto() {
-            let nombre = document.getElementById('inv-nombre').value;
-            let stock = document.getElementById('inv-stock').value;
-            let costo = document.getElementById('inv-costo').value;
-            let precio = document.getElementById('inv-precio').value;
-
-            if(!nombre || !precio) {
-                alert("Complete al menos el nombre y el precio.");
+        function switchModule(modId) {
+            if (modId === 'contabilidad' && currentUser.role !== 'Administrador') {
+                showToast('Acceso restringido solo para Administradores', 'danger');
                 return;
             }
 
-            let repuestos = JSON.parse(localStorage.getItem('mec_repuestos') || '[]');
-            repuestos.push({nombre, stock, costo, precio});
-            localStorage.setItem('mec_repuestos', JSON.stringify(repuestos));
-            
-            alert("Repuesto guardado con éxito.");
-            document.getElementById('inv-nombre').value = '';
-            document.getElementById('inv-stock').value = '5';
-            document.getElementById('inv-costo').value = '';
-            document.getElementById('inv-precio').value = '';
-            cargarInventario();
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(`mod-${modId}`).classList.add('active');
+            event.target.classList.add('active');
+
+            if (modId === 'contabilidad') calculateAccounting();
+            if (modId === 'pos') renderPosCatalog();
         }
 
-        function cargarInventario() {
-            let repuestos = JSON.parse(localStorage.getItem('mec_repuestos') || '[]');
-            let html = '';
-            let htmlPos = '';
+        function applyTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            db.config.theme = themeName;
+            saveData();
+        }
 
-            if(repuestos.length === 0) {
-                html = '<tr><td colspan="5" class="text-center text-muted">Sin repuestos registrados.</td></tr>';
-                htmlPos = '<tr><td colspan="4" class="text-center text-muted">Sin inventario disponible.</td></tr>';
-            } else {
-                repuestos.forEach((r, index) => {
-                    html += `<tr>
-                        <td>${r.nombre}</td>
-                        <td>${r.stock}</td>
-                        <td>L ${r.costo || 0}</td>
-                        <td>L ${r.precio}</td>
-                        <td><button class="btn btn-danger btn-sm" onclick="eliminarRepuesto(${index})"><i class="fas fa-trash"></i></button></td>
-                    </tr>`;
+        function changeTheme(themeName) {
+            applyTheme(themeName);
+            showToast('Tema visual actualizado', 'success');
+        }
 
-                    htmlPos += `<tr>
-                        <td>${r.nombre}</td>
-                        <td>${r.stock}</td>
-                        <td>L ${r.precio}</td>
-                        <td><button class="btn btn-primary btn-sm" onclick="agregarAlCarrito('${r.nombre}', ${r.precio})"><i class="fas fa-cart-plus"></i></button></td>
-                    </tr>`;
+        function saveCurrency(symbol) {
+            db.config.currency = symbol || 'L.';
+            saveData();
+            showToast('Símbolo de moneda actualizado', 'success');
+        }
+
+        function renderPosCatalog() {
+            const query = document.getElementById('pos-search').value.toLowerCase();
+            const body = document.getElementById('pos-catalog-body');
+            body.innerHTML = '';
+
+            db.inventory
+                .filter(p => p.code.toLowerCase().includes(query) || p.name.toLowerCase().includes(query))
+                .forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><b>${p.code}</b></td>
+                        <td>${p.name}</td>
+                        <td><span class="badge" style="background:${p.stock <= p.minStock ? 'var(--danger)' : 'var(--bg-card)'}; color:#fff;">${p.stock}</span></td>
+                        <td>${db.config.currency} ${p.price.toFixed(2)}</td>
+                        <td>
+                            <button class="btn btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;"
+                                onclick="addToCart(${p.id})" ${p.stock <= 0 ? 'disabled' : ''}>
+                                + Agregar
+                            </button>
+                        </td>
+                    `;
+                    body.appendChild(tr);
                 });
+        }
+
+        function addToCart(productId) {
+            const prod = db.inventory.find(p => p.id === productId);
+            if (!prod) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                if (existing.qty + 1 > prod.stock) {
+                    showToast('Supera el stock disponible en inventario', 'danger');
+                    return;
+                }
+                existing.qty++;
+            } else {
+                cart.push({ id: prod.id, code: prod.code, name: prod.name, price: prod.price, cost: prod.cost, qty: 1 });
             }
-            document.getElementById('tabla-inventario-body').innerHTML = html;
-            document.getElementById('tabla-pos-inventario').innerHTML = htmlPos;
+            renderCart();
         }
 
-        function eliminarRepuesto(index) {
-            let repuestos = JSON.parse(localStorage.getItem('mec_repuestos') || '[]');
-            repuestos.splice(index, 1);
-            localStorage.setItem('mec_repuestos', JSON.stringify(repuestos));
-            cargarInventario();
+        function updateCartQty(productId, newQty) {
+            const prod = db.inventory.find(p => p.id === productId);
+            const qty = parseInt(newQty);
+            if (isNaN(qty) || qty <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            } else {
+                if (qty > prod.stock) {
+                    showToast('Supera el stock disponible', 'danger');
+                    renderCart();
+                    return;
+                }
+                const item = cart.find(i => i.id === productId);
+                if (item) item.qty = qty;
+            }
+            renderCart();
         }
 
-        function calcularPrecioDesdeCosto() {
-            let costo = parseFloat(document.getElementById('inv-costo').value) || 0;
-            let margen = parseFloat(document.getElementById('inv-margen').value) || 0;
-            let precio = costo + (costo * (margen / 100));
-            document.getElementById('inv-precio').value = precio.toFixed(2);
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            renderCart();
         }
 
-        // GUARDAR NUEVA ORDEN EN NUBE Y LOCAL
-        async function guardarOrdenMoto() {
-            let cliente = document.getElementById('moto-cliente').value;
-            let telefono = document.getElementById('moto-telefono').value;
-            let placa = document.getElementById('moto-placa').value;
-            let modelo = document.getElementById('moto-modelo').value;
-            let kilometraje = document.getElementById('moto-km-actual').value;
-            let estado = document.getElementById('moto-estado').value;
-            let falla = document.getElementById('moto-falla').value;
-            let manoObra = parseFloat(document.getElementById('moto-mano-obra').value) || 0;
+        function clearCart() {
+            cart = [];
+            renderCart();
+        }
 
-            if(!cliente || !modelo) {
-                alert("Ingrese al menos el nombre del cliente y el modelo de la moto.");
+        function renderCart() {
+            const body = document.getElementById('cart-body');
+            body.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const itemSub = item.price * item.qty;
+                subtotal += itemSub;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.name}</td>
+                    <td><input type="number" value="${item.qty}" min="1" style="width:60px; padding:0.2rem;" onchange="updateCartQty(${item.id}, this.value)"></td>
+                    <td>${db.config.currency} ${item.price.toFixed(2)}</td>
+                    <td>${db.config.currency} ${itemSub.toFixed(2)}</td>
+                    <td><button class="btn btn-danger" style="padding:0.1rem 0.4rem;" onclick="removeFromCart(${item.id})">✕</button></td>
+                `;
+                body.appendChild(tr);
+            });
+
+            const taxRate = db.config.taxActive ? (db.config.taxRate / 100) : 0;
+            const tax = subtotal * taxRate;
+            const total = subtotal + tax;
+
+            document.getElementById('pos-subtotal').textContent = `${db.config.currency} ${subtotal.toFixed(2)}`;
+            document.getElementById('pos-tax').textContent = `${db.config.currency} ${tax.toFixed(2)}`;
+            document.getElementById('pos-tax-label').textContent = `ISV (${db.config.taxActive ? db.config.taxRate : 0}%):`;
+            document.getElementById('pos-total').textContent = `${db.config.currency} ${total.toFixed(2)}`;
+
+            calcChange();
+        }
+
+        function calcChange() {
+            const totalStr = document.getElementById('pos-total').textContent.replace(/[^\d.]/g, '');
+            const total = parseFloat(totalStr) || 0;
+            const pay = parseFloat(document.getElementById('pos-pay-amount').value) || 0;
+            const change = pay - total;
+            document.getElementById('pos-change').textContent = `${db.config.currency} ${change > 0 ? change.toFixed(2) : '0.00'}`;
+        }
+
+        function processSale(isQuote = false) {
+            if (cart.length === 0) {
+                showToast('El carrito está vacío', 'danger');
                 return;
             }
 
-            let datosOrden = { cliente, telefono, placa, modelo, kilometraje, estado, falla, manoObra };
+            const clientName = document.getElementById('pos-client-name').value.trim() || 'Consumidor Final';
+            const clientId = document.getElementById('pos-client-id').value.trim() || 'N/A';
 
-            try {
-                let btnRegistrar = event.target;
-                btnRegistrar.innerText = "Guardando...";
-                btnRegistrar.disabled = true;
+            let subtotal = 0;
+            let costTotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.qty;
+                costTotal += item.cost * item.qty;
+            });
 
-                await fetch(urlGoogleScript, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(datosOrden)
+            const tax = db.config.taxActive ? (subtotal * (db.config.taxRate / 100)) : 0;
+            const total = subtotal + tax;
+
+            const saleRecord = {
+                id: 'FAC-' + Date.now().toString().slice(-6),
+                date: new Date().toLocaleString(),
+                clientName,
+                clientId,
+                items: [...cart],
+                subtotal,
+                tax,
+                total,
+                costTotal,
+                isQuote,
+                status: isQuote ? 'COTIZACION' : 'COMPLETADA'
+            };
+
+            if (!isQuote) {
+                // Descontar Stock
+                cart.forEach(item => {
+                    const prod = db.inventory.find(p => p.id === item.id);
+                    if (prod) prod.stock -= item.qty;
                 });
-
-                let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
-                motos.push(datosOrden);
-                localStorage.setItem('mec_motos', JSON.stringify(motos));
-
-                alert("¡Orden registrada y enviada a Google Sheets con éxito!");
-                
-                document.getElementById('moto-cliente').value = '';
-                document.getElementById('moto-telefono').value = '';
-                document.getElementById('moto-placa').value = '';
-                document.getElementById('moto-modelo').value = '';
-                document.getElementById('moto-km-actual').value = '';
-                document.getElementById('moto-falla').value = '';
-                document.getElementById('moto-mano-obra').value = '0';
-                
-                cargarMotos();
-                btnRegistrar.innerText = "Registrar Orden";
-                btnRegistrar.disabled = false;
-
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Error al enviar los datos.");
-                event.target.disabled = false;
-                event.target.innerText = "Registrar Orden";
-            }
-        }
-
-        // CARGAR MOTOS CON SELECTOR DE ESTADO Y BOTÓN DE EDITAR
-        function cargarMotos() {
-            let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
-            let html = '';
-            let activas = 0;
-
-            if(motos.length === 0) {
-                html = '<tr><td colspan="4" class="text-center text-muted">No hay órdenes registradas.</td></tr>';
+                showToast('Venta completada con éxito', 'success');
             } else {
-                motos.forEach((m, index) => {
-                    if(m.estado !== 'Lista para Entrega') activas++;
-                    
-                    html += `<tr>
-                        <td><strong>${m.cliente}</strong><br><small class="text-muted">${m.modelo} (${m.placa || 'Sin placa'})</small></td>
-                        <td>
-                            <select class="form-select form-select-sm" onchange="cambiarEstadoDirecto(${index}, this.value)">
-                                <option value="Pendiente de revisión" ${m.estado === 'Pendiente de revisión' ? 'selected' : ''}>Pendiente de revisión</option>
-                                <option value="En Diagnóstico" ${m.estado === 'En Diagnóstico' ? 'selected' : ''}>En Diagnóstico</option>
-                                <option value="En Reparación" ${m.estado === 'En Reparación' ? 'selected' : ''}>En Reparación</option>
-                                <option value="Lista para Entrega" ${m.estado === 'Lista para Entrega' ? 'selected' : ''}>Lista para Entrega</option>
-                            </select>
-                        </td>
-                        <td>L ${m.manoObra}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm text-white me-1" onclick="abrirModalEditar(${index})" title="Editar Cliente/Moto"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarMoto(${index})" title="Eliminar"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`;
-                });
+                showToast('Cotización creada correctamente', 'success');
             }
-            document.getElementById('tabla-motos-body').innerHTML = html;
-            document.getElementById('lbl-motos-activas').innerText = activas;
+
+            db.sales.unshift(saleRecord);
+            saveData();
+
+            // Vista previa ticket
+            showSaleTicket(saleRecord);
+
+            // Limpiar formulario POS
+            cart = [];
+            renderCart();
+            renderPosCatalog();
+            renderInventory();
+            document.getElementById('pos-client-name').value = '';
+            document.getElementById('pos-client-id').value = '';
+            document.getElementById('pos-pay-amount').value = '';
         }
 
-        // CAMBIAR SOLO ESTADO DESDE EL SELECTOR DE LA TABLA
-        async function cambiarEstadoDirecto(index, nuevoEstado) {
-            let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
-            if(motos[index]) {
-                motos[index].estado = nuevoEstado;
-                localStorage.setItem('mec_motos', JSON.stringify(motos));
-                
-                // Actualizar también en la hoja de cálculo
-                let datosActualizados = { action: "update", index: index, ...motos[index] };
+        function calcMargin() {
+            const cost = parseFloat(document.getElementById('prod-cost').value) || 0;
+            const price = parseFloat(document.getElementById('prod-price').value) || 0;
+            if (cost > 0 && price > 0) {
+                const margin = ((price - cost) / cost) * 100;
+                document.getElementById('prod-margin').value = margin.toFixed(1) + '%';
+            } else {
+                document.getElementById('prod-margin').value = '0%';
+            }
+        }
+
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('prod-id').value;
+            const code = document.getElementById('prod-code').value.trim();
+            const name = document.getElementById('prod-name').value.trim();
+            const cost = parseFloat(document.getElementById('prod-cost').value) || 0;
+            const price = parseFloat(document.getElementById('prod-price').value) || 0;
+            const stock = parseInt(document.getElementById('prod-stock').value) || 0;
+            const minStock = parseInt(document.getElementById('prod-min-stock').value) || 0;
+
+            if (id) {
+                // Editar existente
+                const index = db.inventory.findIndex(p => p.id == id);
+                if (index !== -1) {
+                    db.inventory[index] = { id: parseInt(id), code, name, cost, price, stock, minStock };
+                    showToast('Producto actualizado correctamente', 'success');
+                }
+            } else {
+                // Nuevo producto
+                const newId = Date.now();
+                db.inventory.push({ id: newId, code, name, cost, price, stock, minStock });
+                showToast('Nuevo repuesto ingresado', 'success');
+            }
+
+            saveData();
+            resetProductForm();
+            renderInventory();
+            renderPosCatalog();
+            updateOrderPartsSelect();
+        }
+
+        function editProduct(id) {
+            const p = db.inventory.find(prod => prod.id === id);
+            if (!p) return;
+            document.getElementById('prod-id').value = p.id;
+            document.getElementById('prod-code').value = p.code;
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-cost').value = p.cost;
+            document.getElementById('prod-price').value = p.price;
+            document.getElementById('prod-stock').value = p.stock;
+            document.getElementById('prod-min-stock').value = p.minStock;
+            document.getElementById('prod-btn-save').textContent = 'Actualizar Repuesto';
+            calcMargin();
+        }
+
+        function deleteProduct(id) {
+            openCustomModal('Confirmación', '¿Está seguro de eliminar este repuesto del inventario?', [
+                { text: 'Sí, Eliminar', class: 'btn-danger', action: () => {
+                    db.inventory = db.inventory.filter(p => p.id !== id);
+                    saveData();
+                    renderInventory();
+                    renderPosCatalog();
+                    updateOrderPartsSelect();
+                    closeModal();
+                    showToast('Repuesto eliminado', 'success');
+                }},
+                { text: 'Cancelar', class: 'btn-secondary', action: closeModal }
+            ]);
+        }
+
+        function resetProductForm() {
+            document.getElementById('product-form').reset();
+            document.getElementById('prod-id').value = '';
+            document.getElementById('prod-btn-save').textContent = 'Guardar Producto';
+            document.getElementById('prod-margin').value = '0%';
+        }
+
+        function renderInventory() {
+            const query = document.getElementById('inv-search').value.toLowerCase();
+            const sort = document.getElementById('inv-sort').value;
+            const filterStock = document.getElementById('inv-filter-stock').value;
+
+            let list = db.inventory.filter(p => p.code.toLowerCase().includes(query) || p.name.toLowerCase().includes(query));
+
+            if (filterStock === 'low') {
+                list = list.filter(p => p.stock <= p.minStock);
+            }
+
+            list.sort((a, b) => {
+                if (sort === 'name') return a.name.localeCompare(b.name);
+                if (sort === 'code') return a.code.localeCompare(b.code);
+                if (sort === 'stock') return a.stock - b.stock;
+                return 0;
+            });
+
+            const body = document.getElementById('inventory-body');
+            body.innerHTML = '';
+
+            list.forEach(p => {
+                const margin = p.cost > 0 ? (((p.price - p.cost) / p.cost) * 100).toFixed(1) : 0;
+                const isLow = p.stock <= p.minStock;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><b>${p.code}</b></td>
+                    <td>${p.name}</td>
+                    <td>${db.config.currency} ${p.cost.toFixed(2)}</td>
+                    <td>${db.config.currency} ${p.price.toFixed(2)}</td>
+                    <td style="color:var(--success); font-weight:bold;">${margin}%</td>
+                    <td><b>${p.stock}</b></td>
+                    <td>
+                        <span class="badge" style="background:${isLow ? 'var(--danger)' : 'var(--success)'}; color:#fff;">
+                            ${isLow ? '⚠️ BAJO STOCK' : 'OK'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary" style="padding:0.2rem 0.5rem;" onclick="editProduct(${p.id})">✏️ Edit</button>
+                            <button class="btn btn-danger" style="padding:0.2rem 0.5rem;" onclick="deleteProduct(${p.id})">🗑️</button>
+                        </div>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function renderSalesHistory() {
+            const query = document.getElementById('sales-search').value.toLowerCase();
+            const body = document.getElementById('sales-history-body');
+            body.innerHTML = '';
+
+            db.sales
+                .filter(s => s.id.toLowerCase().includes(query) || s.clientName.toLowerCase().includes(query) || s.date.toLowerCase().includes(query))
+                .forEach(s => {
+                    const isAnulada = s.status === 'ANULADA';
+                    const tr = document.createElement('tr');
+                    tr.style.cursor = 'pointer';
+                    tr.ondblclick = () => showSaleTicket(s);
+                    tr.innerHTML = `
+                        <td><b>${s.id}</b></td>
+                        <td>${s.date}</td>
+                        <td>${s.clientName}</td>
+                        <td><span class="badge" style="background:${s.isQuote ? 'var(--warning)' : 'var(--info)'}; color:#000;">${s.isQuote ? 'COTIZACIÓN' : 'FACTURA'}</span></td>
+                        <td><b>${db.config.currency} ${s.total.toFixed(2)}</b></td>
+                        <td>
+                            <span class="badge" style="background:${isAnulada ? 'var(--danger)' : 'var(--success)'}; color:#fff;">${s.status}</span>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-secondary" style="padding:0.2rem 0.5rem;" onclick="showSaleTicket(db.sales.find(x=>x.id==='${s.id}'))">🖨️ Ver / Imprimir</button>
+                                ${(!isAnulada && !s.isQuote) ? `<button class="btn btn-danger" style="padding:0.2rem 0.5rem;" onclick="cancelSale('${s.id}')">Anular</button>` : ''}
+                            </div>
+                        </td>
+                    `;
+                    body.appendChild(tr);
+                });
+        }
+
+        function cancelSale(saleId) {
+            openCustomModal('Anular Venta', `¿Desea anular la venta ${saleId}? El stock de los repuestos será restaurado al inventario.`, [
+                { text: 'Sí, Anular y Devolver Stock', class: 'btn-danger', action: () => {
+                    const sale = db.sales.find(s => s.id === saleId);
+                    if (sale && sale.status !== 'ANULADA') {
+                        sale.status = 'ANULADA';
+                        // Restaurar Stock
+                        sale.items.forEach(item => {
+                            const prod = db.inventory.find(p => p.id === item.id);
+                            if (prod) prod.stock += item.qty;
+                        });
+                        saveData();
+                        renderSalesHistory();
+                        renderInventory();
+                        renderPosCatalog();
+                        closeModal();
+                        showToast(`Venta ${saleId} anulada con éxito`, 'success');
+                    }
+                }},
+                { text: 'Cancelar', class: 'btn-secondary', action: closeModal }
+            ]);
+        }
+
+        function showSaleTicket(sale) {
+            const title = sale.isQuote ? 'COTIZACIÓN DE REPUESTOS' : 'FACTURA DE VENTA';
+            let itemsHtml = '';
+            sale.items.forEach(i => {
+                itemsHtml += `
+                    <tr>
+                        <td>${i.name}</td>
+                        <td style="text-align:center;">${i.qty}</td>
+                        <td style="text-align:right;">${db.config.currency} ${i.price.toFixed(2)}</td>
+                        <td style="text-align:right;">${db.config.currency} ${(i.qty * i.price).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            const html = `
+                <div class="ticket-header">
+                    <h2>${db.config.companyName}</h2>
+                    <p>${db.config.address}</p>
+                    <p>Tel: ${db.config.phone}</p>
+                    <hr style="margin:5px 0;">
+                    <h3>${title}</h3>
+                    <p>Folio: <b>${sale.id}</b> | Fecha: ${sale.date}</p>
+                    <p>Cliente: ${sale.clientName} (${sale.clientId})</p>
+                </div>
+                <table class="ticket-table">
+                    <thead>
+                        <tr>
+                            <th>Repuesto</th>
+                            <th style="text-align:center;">Cant</th>
+                            <th style="text-align:right;">Precio</th>
+                            <th style="text-align:right;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>${itemsHtml}</tbody>
+                </table>
+                <div style="border-top:1px dashed #000; padding-top:5px; margin-top:5px; text-align:right; font-size:12px;">
+                    <p>Subtotal: ${db.config.currency} ${sale.subtotal.toFixed(2)}</p>
+                    <p>ISV: ${db.config.currency} ${sale.tax.toFixed(2)}</p>
+                    <p style="font-size:14px; font-weight:bold;">TOTAL: ${db.config.currency} ${sale.total.toFixed(2)}</p>
+                </div>
+                <div class="ticket-footer">
+                    <p>${db.config.footerMsg}</p>
+                </div>
+            `;
+
+            openCustomModal(`Documento: ${sale.id}`, html, [
+                { text: '🖨️ Imprimir Ticket', class: 'btn', action: () => printHTML(html) },
+                { text: 'Cerrar', class: 'btn-secondary', action: closeModal }
+            ]);
+        }
+
+        function updateOrderPartsSelect() {
+            const select = document.getElementById('ord-select-part');
+            select.innerHTML = '<option value="">-- Seleccionar Repuesto --</option>';
+            db.inventory.forEach(p => {
+                if (p.stock > 0) {
+                    select.innerHTML += `<option value="${p.id}">${p.code} - ${p.name} (Stock: ${p.stock}) - ${db.config.currency}${p.price}</option>`;
+                }
+            });
+        }
+
+        function addPartToOrder() {
+            const select = document.getElementById('ord-select-part');
+            const qtyInput = document.getElementById('ord-part-qty');
+            const id = parseInt(select.value);
+            const qty = parseInt(qtyInput.value) || 1;
+
+            if (!id) return;
+            const prod = db.inventory.find(p => p.id === id);
+            if (!prod) return;
+
+            if (qty > prod.stock) {
+                showToast('Cantidad supera stock del taller', 'danger');
+                return;
+            }
+
+            tempOrderParts.push({
+                id: prod.id,
+                name: prod.name,
+                cost: prod.cost,
+                price: prod.price,
+                qty: qty,
+                source: 'INVENTARIO'
+            });
+
+            renderOrderPartsTable();
+        }
+
+        function addCustomerPartToOrder() {
+            const nameInput = document.getElementById('ord-cust-part');
+            const qtyInput = document.getElementById('ord-cust-part-qty');
+            const name = nameInput.value.trim();
+            const qty = parseInt(qtyInput.value) || 1;
+
+            if (!name) return;
+
+            tempOrderParts.push({
+                id: null,
+                name: name + ' (Cliente)',
+                cost: 0,
+                price: 0,
+                qty: qty,
+                source: 'CLIENTE'
+            });
+
+            nameInput.value = '';
+            renderOrderPartsTable();
+        }
+
+        function removeOrderPart(index) {
+            tempOrderParts.splice(index, 1);
+            renderOrderPartsTable();
+        }
+
+        function renderOrderPartsTable() {
+            const body = document.getElementById('ord-parts-body');
+            body.innerHTML = '';
+            tempOrderParts.forEach((item, idx) => {
+                const sub = item.price * item.qty;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.name}</td>
+                    <td><span class="badge" style="background:${item.source === 'CLIENTE' ? 'var(--warning)' : 'var(--info)'}; color:#000;">${item.source}</span></td>
+                    <td>${item.qty}</td>
+                    <td>${db.config.currency} ${item.price.toFixed(2)}</td>
+                    <td>${db.config.currency} ${sub.toFixed(2)}</td>
+                    <td><button class="btn btn-danger" style="padding:0.1rem 0.4rem;" onclick="removeOrderPart(${idx})">✕</button></td>
+                `;
+                body.appendChild(tr);
+            });
+
+            calcOrderTotals();
+        }
+
+        function calcOrderTotals() {
+            const labor = parseFloat(document.getElementById('ord-labor').value) || 0;
+            let partsTotal = 0;
+            tempOrderParts.forEach(p => {
+                partsTotal += p.price * p.qty;
+            });
+            const grandTotal = labor + partsTotal;
+            document.getElementById('ord-total-display').textContent = `${db.config.currency} ${grandTotal.toFixed(2)}`;
+        }
+
+        function saveOrder(e) {
+            e.preventDefault();
+            const id = document.getElementById('ord-id').value;
+            const client = document.getElementById('ord-client').value.trim();
+            const phone = document.getElementById('ord-phone').value.trim();
+            const motoModel = document.getElementById('ord-moto-model').value.trim();
+            const motoPlate = document.getElementById('ord-moto-plate').value.trim();
+            const motoVin = document.getElementById('ord-moto-vin').value.trim();
+            const motoColor = document.getElementById('ord-moto-color').value.trim();
+            const fault = document.getElementById('ord-fault').value.trim();
+            const diag = document.getElementById('ord-diag').value.trim();
+            const labor = parseFloat(document.getElementById('ord-labor').value) || 0;
+            const status = document.getElementById('ord-status').value;
+
+            let partsTotal = 0;
+            let partsCostTotal = 0;
+            tempOrderParts.forEach(p => {
+                partsTotal += p.price * p.qty;
+                partsCostTotal += p.cost * p.qty;
+            });
+
+            if (id) {
+                // Actualizar Orden
+                const index = db.orders.findIndex(o => o.id === id);
+                if (index !== -1) {
+                    db.orders[index] = {
+                        ...db.orders[index],
+                        client, phone, motoModel, motoPlate, motoVin, motoColor,
+                        fault, diag, labor, status,
+                        parts: [...tempOrderParts],
+                        partsTotal, partsCostTotal,
+                        grandTotal: labor + partsTotal
+                    };
+                    showToast('Orden de trabajo actualizada', 'success');
+                }
+            } else {
+                // Nueva Orden -> Descontar stock
+                tempOrderParts.forEach(p => {
+                    if (p.source === 'INVENTARIO' && p.id) {
+                        const prod = db.inventory.find(inv => inv.id === p.id);
+                        if (prod) prod.stock -= p.qty;
+                    }
+                });
+
+                const newOrder = {
+                    id: 'OT-' + Date.now().toString().slice(-6),
+                    date: new Date().toLocaleString(),
+                    client, phone, motoModel, motoPlate, motoVin, motoColor,
+                    fault, diag, labor, status,
+                    parts: [...tempOrderParts],
+                    partsTotal, partsCostTotal,
+                    grandTotal: labor + partsTotal
+                };
+
+                db.orders.unshift(newOrder);
+                showToast('Orden de Trabajo creada con éxito', 'success');
+                showOrderTicket(newOrder);
+            }
+
+            saveData();
+            resetOrderForm();
+            renderOrdersHistory();
+            renderInventory();
+            renderPosCatalog();
+        }
+
+        function resetOrderForm() {
+            document.getElementById('order-form').reset();
+            document.getElementById('ord-id').value = '';
+            tempOrderParts = [];
+            renderOrderPartsTable();
+        }
+
+        function renderOrdersHistory() {
+            const query = document.getElementById('orders-search').value.toLowerCase();
+            const body = document.getElementById('orders-history-body');
+            body.innerHTML = '';
+
+            db.orders
+                .filter(o => o.id.toLowerCase().includes(query) || o.client.toLowerCase().includes(query) || o.motoPlate.toLowerCase().includes(query) || o.motoModel.toLowerCase().includes(query))
+                .forEach(o => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><b>${o.id}</b></td>
+                        <td>${o.date}</td>
+                        <td>${o.client}</td>
+                        <td>${o.motoModel} (${o.motoPlate || 'Sin Placa'})</td>
+                        <td><span class="badge" style="background:var(--accent); color:#000;">${o.status}</span></td>
+                        <td>${db.config.currency} ${o.labor.toFixed(2)}</td>
+                        <td><b>${db.config.currency} ${o.grandTotal.toFixed(2)}</b></td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-secondary" style="padding:0.2rem 0.5rem;" onclick="showOrderTicket(db.orders.find(x=>x.id==='${o.id}'))">🖨️ Imprimir</button>
+                                <button class="btn btn-secondary" style="padding:0.2rem 0.5rem;" onclick="editOrder('${o.id}')">✏️ Editar</button>
+                                ${o.status !== 'ANULADA' ? `<button class="btn btn-danger" style="padding:0.2rem 0.5rem;" onclick="cancelOrder('${o.id}')">Anular</button>` : ''}
+                            </div>
+                        </td>
+                    `;
+                    body.appendChild(tr);
+                });
+        }
+
+        function editOrder(id) {
+            const o = db.orders.find(ord => ord.id === id);
+            if (!o) return;
+            switchModule('ordenes');
+            document.getElementById('ord-id').value = o.id;
+            document.getElementById('ord-client').value = o.client;
+            document.getElementById('ord-phone').value = o.phone;
+            document.getElementById('ord-moto-model').value = o.motoModel;
+            document.getElementById('ord-moto-plate').value = o.motoPlate;
+            document.getElementById('ord-moto-vin').value = o.motoVin;
+            document.getElementById('ord-moto-color').value = o.motoColor;
+            document.getElementById('ord-fault').value = o.fault;
+            document.getElementById('ord-diag').value = o.diag;
+            document.getElementById('ord-labor').value = o.labor;
+            document.getElementById('ord-status').value = o.status;
+
+            tempOrderParts = [...o.parts];
+            renderOrderPartsTable();
+        }
+
+        function cancelOrder(id) {
+            openCustomModal('Anular Orden', `¿Desea anular la Orden de Trabajo ${id}? Se devolverán los repuestos de inventario.`, [
+                { text: 'Sí, Anular', class: 'btn-danger', action: () => {
+                    const o = db.orders.find(ord => ord.id === id);
+                    if (o && o.status !== 'ANULADA') {
+                        o.status = 'ANULADA';
+                        // Restaurar stock
+                        o.parts.forEach(p => {
+                            if (p.source === 'INVENTARIO' && p.id) {
+                                const prod = db.inventory.find(inv => inv.id === p.id);
+                                if (prod) prod.stock += p.qty;
+                            }
+                        });
+                        saveData();
+                        renderOrdersHistory();
+                        renderInventory();
+                        closeModal();
+                        showToast(`Orden ${id} anulada`, 'success');
+                    }
+                }},
+                { text: 'Cancelar', class: 'btn-secondary', action: closeModal }
+            ]);
+        }
+
+        function showOrderTicket(order) {
+            let partsHtml = '';
+            order.parts.forEach(p => {
+                partsHtml += `
+                    <tr>
+                        <td>${p.name}</td>
+                        <td style="text-align:center;">${p.qty}</td>
+                        <td style="text-align:right;">${db.config.currency} ${p.price.toFixed(2)}</td>
+                        <td style="text-align:right;">${db.config.currency} ${(p.price * p.qty).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            const html = `
+                <div class="ticket-header">
+                    <h2>${db.config.companyName}</h2>
+                    <p>ORDEN TÉCNICA DE TRABAJO</p>
+                    <p><b>N° OT: ${order.id}</b> | Fecha: ${order.date}</p>
+                </div>
+                <div style="font-size:12px; margin-bottom:10px;">
+                    <p><b>Cliente:</b> ${order.client} | <b>Tel:</b> ${order.phone || 'N/A'}</p>
+                    <p><b>Moto:</b> ${order.motoModel} | <b>Placa:</b> ${order.motoPlate || 'N/A'}</p>
+                    <p><b>Color:</b> ${order.motoColor || 'N/A'} | <b>VIN:</b> ${order.motoVin || 'N/A'}</p>
+                    <p><b>Estado:</b> ${order.status}</p>
+                    <hr style="margin:5px 0;">
+                    <p><b>Falla Reportada:</b> ${order.fault}</p>
+                    <p><b>Diagnóstico Técnico:</b> ${order.diag || 'En proceso'}</p>
+                </div>
+                <h4>Repuestos y Materiales</h4>
+                <table class="ticket-table">
+                    <thead>
+                        <tr>
+                            <th>Detalle</th>
+                            <th style="text-align:center;">Cant</th>
+                            <th style="text-align:right;">Precio</th>
+                            <th style="text-align:right;">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>${partsHtml}</tbody>
+                </table>
+                <div style="border-top:1px dashed #000; padding-top:5px; text-align:right; font-size:12px;">
+                    <p>Repuestos Total: ${db.config.currency} ${order.partsTotal.toFixed(2)}</p>
+                    <p>Mano de Obra: ${db.config.currency} ${order.labor.toFixed(2)}</p>
+                    <p style="font-size:14px; font-weight:bold;">TOTAL ORDEN: ${db.config.currency} ${order.grandTotal.toFixed(2)}</p>
+                </div>
+                <div class="ticket-footer">
+                    <p>Firma Conformidad Cliente: _____________________</p>
+                    <p style="margin-top:5px;">${db.config.footerMsg}</p>
+                </div>
+            `;
+
+            openCustomModal(`Orden Técnico: ${order.id}`, html, [
+                { text: '🖨️ Imprimir Orden Técnica', class: 'btn', action: () => printHTML(html) },
+                { text: 'Cerrar', class: 'btn-secondary', action: closeModal }
+            ]);
+        }
+
+        function calculateAccounting() {
+            let partsRev = 0;
+            let partsCost = 0;
+            let taxRev = 0;
+
+            // Ventas POS
+            db.sales.filter(s => s.status === 'COMPLETADA').forEach(s => {
+                partsRev += s.subtotal;
+                partsCost += s.costTotal;
+                taxRev += s.tax;
+            });
+
+            // Órdenes de Trabajo Finalizadas
+            let laborRev = 0;
+            db.orders.filter(o => o.status !== 'ANULADA').forEach(o => {
+                laborRev += o.labor;
+                partsRev += o.partsTotal;
+                partsCost += o.partsCostTotal;
+            });
+
+            const partsProfit = partsRev - partsCost;
+            const netTotal = partsProfit + laborRev;
+
+            document.getElementById('acc-parts-rev').textContent = `${db.config.currency} ${partsRev.toFixed(2)}`;
+            document.getElementById('acc-parts-profit').textContent = `${db.config.currency} ${partsProfit.toFixed(2)}`;
+            document.getElementById('acc-labor-rev').textContent = `${db.config.currency} ${laborRev.toFixed(2)}`;
+            document.getElementById('acc-tax-rev').textContent = `${db.config.currency} ${taxRev.toFixed(2)}`;
+            document.getElementById('acc-total-net-profit').textContent = `${db.config.currency} ${netTotal.toFixed(2)}`;
+        }
+
+        function loadConfigForms() {
+            document.getElementById('cfg-company-name').value = db.config.companyName;
+            document.getElementById('cfg-phone').value = db.config.phone;
+            document.getElementById('cfg-address').value = db.config.address;
+            document.getElementById('cfg-tax-rate').value = db.config.taxRate;
+            document.getElementById('cfg-tax-active').value = db.config.taxActive ? "true" : "false";
+            document.getElementById('cfg-footer').value = db.config.footerMsg;
+            document.getElementById('cfg-theme-select').value = db.config.theme || 'default';
+            document.getElementById('cfg-currency').value = db.config.currency || 'L.';
+        }
+
+        function saveInvoiceConfig(e) {
+            e.preventDefault();
+            db.config.companyName = document.getElementById('cfg-company-name').value.trim();
+            db.config.phone = document.getElementById('cfg-phone').value.trim();
+            db.config.address = document.getElementById('cfg-address').value.trim();
+            db.config.taxRate = parseFloat(document.getElementById('cfg-tax-rate').value) || 0;
+            db.config.taxActive = document.getElementById('cfg-tax-active').value === "true";
+            db.config.footerMsg = document.getElementById('cfg-footer').value.trim();
+
+            saveData();
+            showToast('Configuración de factura guardada', 'success');
+        }
+
+        function changePassword(e) {
+            e.preventDefault();
+            const target = document.getElementById('pass-user-target').value;
+            const current = document.getElementById('pass-current').value;
+            const newPass = document.getElementById('pass-new').value;
+
+            if (db.users[target].pass !== current) {
+                showToast('La contraseña actual es incorrecta', 'danger');
+                return;
+            }
+
+            db.users[target].pass = newPass;
+            saveData();
+            document.getElementById('pass-current').value = '';
+            document.getElementById('pass-new').value = '';
+            showToast(`Contraseña de ${target} actualizada con éxito`, 'success');
+        }
+
+        function openInventoryReport() {
+            let rows = '';
+            let totalValue = 0;
+
+            db.inventory.forEach(p => {
+                const sub = p.cost * p.stock;
+                totalValue += sub;
+                rows += `
+                    <tr>
+                        <td>${p.code}</td>
+                        <td>${p.name}</td>
+                        <td style="text-align:center;">${p.stock}</td>
+                        <td style="text-align:right;">${db.config.currency} ${p.cost.toFixed(2)}</td>
+                        <td style="text-align:right;">${db.config.currency} ${sub.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            const html = `
+                <div class="ticket-header">
+                    <h2>${db.config.companyName}</h2>
+                    <h3>REPORTE VALORIZADO DE INVENTARIO</h3>
+                    <p>Fecha de Emisión: ${new Date().toLocaleString()}</p>
+                </div>
+                <table class="ticket-table" style="border:1px solid #000;">
+                    <thead>
+                        <tr style="border-bottom:1px solid #000;">
+                            <th>Código</th>
+                            <th>Repuesto</th>
+                            <th style="text-align:center;">Stock</th>
+                            <th style="text-align:right;">Costo Un.</th>
+                            <th style="text-align:right;">Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+                <div style="text-align:right; margin-top:10px; font-weight:bold; font-size:14px;">
+                    VALOR TOTAL DEL INVENTARIO: ${db.config.currency} ${totalValue.toFixed(2)}
+                </div>
+            `;
+
+            openCustomModal('Reporte de Inventario', html, [
+                { text: '🖨️ Imprimir Reporte', class: 'btn', action: () => printHTML(html) },
+                { text: 'Cerrar', class: 'btn-secondary', action: closeModal }
+            ]);
+        }
+
+        function exportBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", `MEC_BIKERS_BACKUP_${Date.now()}.json`);
+            dlAnchorElem.click();
+            showToast('Backup JSON descargado', 'success');
+        }
+
+        function importBackup(e) {
+            const fileReader = new FileReader();
+            fileReader.onload = function (event) {
                 try {
-                    await fetch(urlGoogleScript, {
-                        method: "POST",
-                        mode: "no-cors",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(datosActualizados)
-                    });
-                } catch(e) { console.error("Error al sincronizar estado:", e); }
-
-                cargarMotos();
-            }
+                    const importedDb = JSON.parse(event.target.result);
+                    if (importedDb.inventory && importedDb.sales && importedDb.config) {
+                        db = importedDb;
+                        saveData();
+                        location.reload();
+                    } else {
+                        showToast('Archivo JSON inválido', 'danger');
+                    }
+                } catch (err) {
+                    showToast('Error al leer archivo JSON', 'danger');
+                }
+            };
+            fileReader.readAsText(e.target.files[0]);
         }
 
-        // ABRIR MODAL PARA EDITAR TODOS LOS DATOS
-        function abrirModalEditar(index) {
-            let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
-            let m = motos[index];
-            if(!m) return;
-
-            document.getElementById('edit-index').value = index;
-            document.getElementById('edit-cliente').value = m.cliente || '';
-            document.getElementById('edit-telefono').value = m.telefono || '';
-            document.getElementById('edit-placa').value = m.placa || '';
-            document.getElementById('edit-modelo').value = m.modelo || '';
-            document.getElementById('edit-kilometraje').value = m.kilometraje || '';
-            document.getElementById('edit-estado').value = m.estado || 'Pendiente de revisión';
-            document.getElementById('edit-falla').value = m.falla || '';
-            document.getElementById('edit-mano-obra').value = m.manoObra || 0;
-
-            let modal = new bootstrap.Modal(document.getElementById('modalEditarOrden'));
-            modal.show();
+        function confirmResetApp() {
+            openCustomModal('⚠️ Restablecer Sistema', '¿Está completamente seguro? Se eliminarán todos los repuestos, ventas y órdenes permanentemente.', [
+                { text: 'Sí, Borrar Todo', class: 'btn-danger', action: () => {
+                    localStorage.removeItem('MEC_BIKERS_DB');
+                    location.reload();
+                }},
+                { text: 'Cancelar', class: 'btn-secondary', action: closeModal }
+            ]);
         }
 
-        // GUARDAR EDICIÓN COMPLETA (CLIENTE, VEHÍCULO, ETC.)
-        async function guardarEdicionOrden() {
-            let index = parseInt(document.getElementById('edit-index').value);
-            let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
+        /* MODALES NATIVOS Y SISTEMA DE TOASTS */
+        function openCustomModal(title, contentHtml, buttons = []) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').innerHTML = contentHtml;
+            const actionsDiv = document.getElementById('modal-actions');
+            actionsDiv.innerHTML = '';
 
-            let cliente = document.getElementById('edit-cliente').value;
-            let telefono = document.getElementById('edit-telefono').value;
-            let placa = document.getElementById('edit-placa').value;
-            let modelo = document.getElementById('edit-modelo').value;
-            let kilometraje = document.getElementById('edit-kilometraje').value;
-            let estado = document.getElementById('edit-estado').value;
-            let falla = document.getElementById('edit-falla').value;
-            let manoObra = parseFloat(document.getElementById('edit-mano-obra').value) || 0;
+            buttons.forEach(b => {
+                const btn = document.createElement('button');
+                btn.className = `btn ${b.class || ''}`;
+                btn.textContent = b.text;
+                btn.onclick = b.action;
+                actionsDiv.appendChild(btn);
+            });
 
-            if(!cliente || !modelo) {
-                alert("El cliente y el modelo son obligatorios.");
-                return;
-            }
-
-            motos[index] = { cliente, telefono, placa, modelo, kilometraje, estado, falla, manoObra };
-            localStorage.setItem('mec_motos', JSON.stringify(motos));
-
-            // Sincronizar con Google Sheets
-            let datosActualizados = { action: "update", index: index, ...motos[index] };
-            try {
-                await fetch(urlGoogleScript, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(datosActualizados)
-                });
-                alert("¡Orden actualizada en el sistema y en Google Sheets!");
-            } catch (error) {
-                console.error("Error al actualizar en la nube:", error);
-                alert("Guardado localmente, pero hubo un problema al sincronizar con la nube.");
-            }
-
-            // Cerrar modal y recargar tabla
-            let modalEl = document.getElementById('modalEditarOrden');
-            let modal = bootstrap.Modal.getInstance(modalEl);
-            modal.hide();
-            cargarMotos();
+            document.getElementById('modal-container').classList.add('active');
         }
 
-        function eliminarMoto(index) {
-            if(confirm("¿Deseas eliminar esta orden de la lista local?")) {
-                let motos = JSON.parse(localStorage.getItem('mec_motos') || '[]');
-                motos.splice(index, 1);
-                localStorage.setItem('mec_motos', JSON.stringify(motos));
-                cargarMotos();
-            }
+        function closeModal() {
+            document.getElementById('modal-container').classList.remove('active');
         }
 
-        function guardarCita() {
-            let cliente = document.getElementById('cita-cliente').value;
-            let fecha = document.getElementById('cita-fecha').value;
-            let servicio = document.getElementById('cita-servicio').value;
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
 
-            if(!cliente || !fecha) {
-                alert("Complete los campos obligatorios de la cita.");
-                return;
-            }
-
-            let citas = JSON.parse(localStorage.getItem('mec_citas') || '[]');
-            citas.push({cliente, fecha, servicio});
-            localStorage.setItem('mec_citas', JSON.stringify(citas));
-
-            alert("Cita agendada correctamente.");
-            document.getElementById('cita-cliente').value = '';
-            document.getElementById('cita-fecha').value = '';
-            document.getElementById('cita-servicio').value = '';
-            cargarCitas();
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
         }
 
-        function cargarCitas() {
-            let citas = JSON.parse(localStorage.getItem('mec_citas') || '[]');
-            let html = '';
-            if(citas.length === 0) {
-                html = '<tr><td colspan="4" class="text-center text-muted">No hay citas registradas.</td></tr>';
-            } else {
-                citas.forEach((c, index) => {
-                    html += `<tr>
-                        <td>${c.cliente}</td>
-                        <td>${c.fecha}</td>
-                        <td>${c.servicio}</td>
-                        <td><button class="btn btn-danger btn-sm" onclick="eliminarCita(${index})"><i class="fas fa-trash"></i></button></td>
-                    </tr>`;
-                });
-            }
-            document.getElementById('tabla-citas-body').innerHTML = html;
+        function printHTML(html) {
+            const printArea = document.getElementById('printable-area');
+            printArea.innerHTML = html;
+            window.print();
         }
 
-        function eliminarCita(index) {
-            let citas = JSON.parse(localStorage.getItem('mec_citas') || '[]');
-            citas.splice(index, 1);
-            localStorage.setItem('mec_citas', JSON.stringify(citas));
-            cargarCitas();
-        }
-
-        function agregarAlCarrito(nombre, precio) {
-            carrito.push({nombre, precio});
-            actualizarCarrito();
-        }
-
-        function actualizarCarrito() {
-            let listaHtml = '';
-            let total = 0;
-            if(carrito.length === 0) {
-                listaHtml = '<li class="list-group-item text-muted text-center small">Carrito vacío</li>';
-            } else {
-                carrito.forEach((item, index) => {
-                    total += item.precio;
-                    listaHtml += `<li class="list-group-item d-flex justify-content-between align-items-center small">
-                        ${item.nombre} <span>L ${item.precio} <button class="btn btn-sm text-danger p-0 ms-2" onclick="quitarDelCarrito(${index})"><i class="fas fa-times"></i></button></span>
-                    </li>`;
-                });
-            }
-            document.getElementById('lista-carrito').innerHTML = listaHtml;
-            document.getElementById('lbl-total-venta').innerText = `L ${total.toFixed(2)}`;
-        }
-
-        function quitarDelCarrito(index) {
-            carrito.splice(index, 1);
-            actualizarCarrito();
-        }
-
-        function procesarVenta() {
-            if(carrito.length === 0) {
-                alert("El carrito está vacío.");
-                return;
-            }
-            let total = carrito.reduce((acc, item) => acc + item.precio, 0);
-            let ventas = JSON.parse(localStorage.getItem('mec_ventas') || '[]');
-            let idVenta = "V-" + Math.floor(1000 + Math.random() * 9000);
-            let fechaHora = new Date().toLocaleString();
-
-            ventas.push({idVenta, fechaHora, total, items: [...carrito]});
-            localStorage.setItem('mec_ventas', JSON.stringify(ventas));
-
-            alert(`Venta cobrada con éxito. Total: L ${total.toFixed(2)}`);
-            carrito = [];
-            actualizarCarrito();
-            cargarVentas();
-            document.getElementById('lbl-num-ventas').innerText = ventas.length;
-        }
-
-        function cargarVentas() {
-            let ventas = JSON.parse(localStorage.getItem('mec_ventas') || '[]');
-            let html = '';
-            if(ventas.length === 0) {
-                html = '<tr><td colspan="4" class="text-center text-muted">No hay ventas registradas.</td></tr>';
-            } else {
-                ventas.forEach((v) => {
-                    html += `<tr>
-                        <td>${v.idVenta}</td>
-                        <td>${v.fechaHora}</td>
-                        <td>L ${v.total.toFixed(2)}</td>
-                        <td><button class="btn btn-info btn-sm text-white" onclick="verFactura('${v.idVenta}')"><i class="fas fa-eye"></i></button></td>
-                    </tr>`;
-                });
-            }
-            document.getElementById('tabla-ventas-body').innerHTML = html;
-            document.getElementById('lbl-num-ventas').innerText = ventas.length;
-        }
-
-        function verFactura(idVenta) {
-            let ventas = JSON.parse(localStorage.getItem('mec_ventas') || '[]');
-            let venta = ventas.find(v => v.idVenta === idVenta);
-            if(venta) {
-                cambiarSeccion('reportes', null);
-                let contenido = `<h6>Factura: ${venta.idVenta}</h6><p class="small text-muted">Fecha: ${venta.fechaHora}</p><ul class="list-group mb-2">`;
-                venta.items.forEach(i => {
-                    contenido += `<li class="list-group-item d-flex justify-content-between small"><span>${i.nombre}</span> <span>L ${i.precio}</span></li>`;
-                });
-                contenido += `</ul><h5>Total Pagado: L ${venta.total.toFixed(2)}</h5>`;
-                document.getElementById('contenido-impresion').innerHTML = contenido;
-            }
-        }
-
-        function guardarAjustes() {
-            let nombreTaller = document.getElementById('ajuste-nombre').value;
-            localStorage.setItem('mec_nombre_taller', nombreTaller);
-            document.getElementById('lbl-nav-titulo').innerText = nombreTaller + " Taller";
-            document.getElementById('lbl-sidebar-titulo').innerText = nombreTaller;
-            document.getElementById('lbl-login-titulo').innerText = nombreTaller;
-            alert("Ajustes guardados.");
-        }
-
-        function limpiarBaseDatos() {
-            if(confirm("¿Estás seguro de borrar todos los datos del taller?")) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        function cargarDatosLocales() {
-            cargarInventario();
-            cargarMotos();
-            cargarCitas();
-            cargarVentas();
-            let nombreTaller = localStorage.getItem('mec_nombre_taller');
-            if(nombreTaller) {
-                document.getElementById('ajuste-nombre').value = nombreTaller;
-                document.getElementById('lbl-nav-titulo').innerText = nombreTaller + " Taller";
-                document.getElementById('lbl-sidebar-titulo').innerText = nombreTaller;
-                document.getElementById('lbl-login-titulo').innerText = nombreTaller;
-            }
+        function printModalContent() {
+            const content = document.getElementById('modal-body').innerHTML;
+            printHTML(content);
         }
     </script>
 </body>
